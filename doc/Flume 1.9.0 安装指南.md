@@ -16,13 +16,7 @@
 
 ## centos7 安装
 
-- ### 安装jdk
-
-  ```shell
-  rpm -ivh jdk
-  ```
-
-- ### 安装Flume
+- ### 安装Flume（需安装java环境）
 
   ```shell
   # 安装Flume
