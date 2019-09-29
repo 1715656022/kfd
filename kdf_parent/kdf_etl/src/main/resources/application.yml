@@ -1,0 +1,6 @@
+server:
+   port: 8089
+   servlet:
+      context-path: /admin
+   tomcat:
+      uri-encoding: UTF-8
