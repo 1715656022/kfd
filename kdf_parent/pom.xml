@@ -10,6 +10,7 @@
 
 	<modules>
 		<module>kdf_etl</module>
+		<module>kdf_flow</module>
 	</modules>
 
 	<parent>
