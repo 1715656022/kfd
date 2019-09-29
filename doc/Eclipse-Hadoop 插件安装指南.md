@@ -10,7 +10,7 @@
 ## 配置Windows工具
 
 - 下载地址：https://dev.tencent.com/s/baa7f105-9c38-465e-9b20-49f61731b30d
-- 配置环境变量->我的电脑->属性->高级->环境变量->系统变量
+- 配置环境变量：我的电脑->属性->高级->环境变量->系统变量
 - 新建->变量名：HADOOP_HOME，变量值：${FilePath}/winutils-master\hadoop-3.0.0
 - 修改->变量名：PATH，变量值：%HADOOP_HOME%\bin;
 
