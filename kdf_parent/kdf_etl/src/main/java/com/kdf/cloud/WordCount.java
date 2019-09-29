@@ -1,5 +1,8 @@
 package com.kdf.cloud;
 
+import java.io.IOException;
+import java.net.URI;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -11,15 +14,10 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-import java.io.IOException;
-import java.net.URI;
+import com.kdf.cloud.base.BaseHadoop;
 
-public class WordCount {
+public class WordCount extends BaseHadoop {
 
-	static {
-		// 这里修改成自己的路径
-		System.setProperty("hadoop.home.dir", "D:\\Java\\winutils-master\\hadoop-3.0.0");
-	}
 
 	/**
 	 * 定义一个内部类MyMap继承Mapper类 泛型解释：LongWritable是大数据里的类型对应java中的Long类型
@@ -35,13 +33,16 @@ public class WordCount {
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			Text k = new Text();
 			LongWritable v = new LongWritable();
-
-			// 从文件中分割出单词数组
-			String[] words = value.toString().split(" ");
-			for (String word : words) {
-				k.set(word);
-				v.set(1l);// 未排序分组前，每个单词出现一次记为1
-				context.write(k, v);
+			try {
+				// 从文件中分割出单词数组
+				String[] words = value.toString().split(" ");
+				for (String word : words) {
+					k.set(word);
+					v.set(1l);// 未排序分组前，每个单词出现一次记为1
+					context.write(k, v);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

@@ -13,9 +13,10 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-import org.apache.log4j.Logger;
 
-public class MrRunner implements Tool {
+import com.kdf.cloud.base.BaseHadoop;
+
+public class MrRunner extends BaseHadoop implements Tool {
 	private Configuration conf = null;
 
 	public static void main(String[] args) {
