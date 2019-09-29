@@ -14,7 +14,13 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import java.io.IOException;
 import java.net.URI;
 
-public class WordCount { 
+public class WordCount {
+
+	static {
+		// 这里修改成自己的路径
+		System.setProperty("hadoop.home.dir", "D:\\Java\\winutils-master\\hadoop-3.0.0");
+	}
+
 	/**
 	 * 定义一个内部类MyMap继承Mapper类 泛型解释：LongWritable是大数据里的类型对应java中的Long类型
 	 * Text对应java里的String类型，所以Mapper泛型前2个就是LongWritable, Text

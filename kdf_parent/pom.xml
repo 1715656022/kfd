@@ -23,6 +23,8 @@
 		<mysql.connector>runtime</mysql.connector>
 		<alibaba.druid>1.0.31</alibaba.druid>
 		<alibaba.fastjson>1.2.57</alibaba.fastjson>
+		<mallat.uasparser>0.6.2</mallat.uasparser>
+		<apache.hadoop>2.7.1</apache.hadoop>
 	</properties>
 
 	<dependencyManagement>
@@ -41,6 +43,26 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${alibaba.fastjson}</version>
+			</dependency>
+			<dependency>
+				<groupId>cz.mallat.uasparser</groupId>
+				<artifactId>uasparser</artifactId>
+				<version>${mallat.uasparser}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-hdfs</artifactId>
+				<version>${apache.hadoop}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-common</artifactId>
+				<version>${apache.hadoop}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-client</artifactId>
+				<version>${apache.hadoop}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
