@@ -29,8 +29,8 @@ public class MrRunner extends BaseHadoop implements Tool {
 
 	@Override
 	public void setConf(Configuration conf) {
-		conf.set("fs.defaultFS", "hdfs://192.168.31.37:8020");
-		conf.set("hbase.zookeeper.quorum", "39.107.92.210.2181");
+		conf.set("fs.defaultFS", "hdfs://192.168.31.37:9000");
+		conf.set("hbase.zookeeper.quorum", "39.107.92.210:2181");
 		this.conf = HBaseConfiguration.create(conf);
 	}
 
@@ -44,7 +44,7 @@ public class MrRunner extends BaseHadoop implements Tool {
 		Configuration conf = this.getConf();
 		this.processArgs(conf, args);
 
-		Job job = Job.getInstance(conf, "test_instatance");
+		Job job = Job.getInstance(conf, "test_name");
 
 		job.setJarByClass(MrRunner.class);
 		job.setMapperClass(MyMapper.class);
@@ -73,7 +73,7 @@ public class MrRunner extends BaseHadoop implements Tool {
 		FileSystem fs = null;
 		try {
 			fs = FileSystem.get(conf);
-			Path inputPath = new Path("hdfs://192.168.31.37:9000/my.log");
+			Path inputPath = new Path("hdfs://192.168.31.37:9000/hadoop-root-datanode-slave.log");
 
 			if (fs.exists(inputPath)) {
 				FileInputFormat.addInputPath(job, inputPath);
