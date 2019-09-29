@@ -29,6 +29,12 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/cz.mallat.uasparser/uasparser -->
+		<dependency>
+			<groupId>cz.mallat.uasparser</groupId>
+			<artifactId>uasparser</artifactId>
+			<version>0.6.2</version>
+		</dependency>
 
 
 		<!-- hadoop 依赖 -->
