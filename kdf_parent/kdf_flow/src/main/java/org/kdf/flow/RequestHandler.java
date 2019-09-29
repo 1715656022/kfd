@@ -46,6 +46,7 @@ public class RequestHandler implements HandlerInterceptor {
     public static final String PORT_KET = "port";
     public static final String REQUEST_METHOD_KEY = "method";
     public static final String CLIENT_TYPE_KEY = "clientType";
+    public static final String REQUEST_TIME = "requestTime";
     
 //    public static final String NGINX_REQUEST_URL = "http://47.93.53.233:80";
     public static final String NGINX_REQUEST_URL = "";
@@ -68,8 +69,9 @@ public class RequestHandler implements HandlerInterceptor {
 		String userAgent = request.getHeader("User-Agent");
 		log.info("获取访问的设备与浏览器信息userAgent = [{}]", userAgent);
 
+		
 		ThreadTask.getInstance().addTask(() -> {
-			HttpClient.doGet(NGINX_REQUEST_URL, initParaMap(url, ipAddr, port, method, userAgent));
+			HttpClient.doGet(NGINX_REQUEST_URL, initParaMap(url, ipAddr, port, method, userAgent, String.valueOf(System.currentTimeMillis())));
 		});
 		
 		return true;
@@ -130,13 +132,14 @@ public class RequestHandler implements HandlerInterceptor {
 	 * @param clientType		客户端类型
 	 * @return 
 	 */
-	public static Map<String, String> initParaMap(String url, String ip, int port, String method, String clientType) {
+	public static Map<String, String> initParaMap(String url, String ip, int port, String method, String clientType, String requestTime) {
 		Map<String, String> paraMap = new HashMap<>();
 		paraMap.put(URL_KEY, url);
 		paraMap.put(IP_ADDR_KEY, ip);
 		paraMap.put(PORT_KET, String.valueOf(port));
 		paraMap.put(REQUEST_METHOD_KEY, method);
 		paraMap.put(CLIENT_TYPE_KEY, clientType);
+		paraMap.put(REQUEST_TIME, requestTime);
 		return paraMap;
 	}
 }
