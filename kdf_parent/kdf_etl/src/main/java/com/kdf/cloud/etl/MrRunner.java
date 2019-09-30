@@ -73,7 +73,7 @@ public class MrRunner extends BaseHadoop implements Tool {
 		FileSystem fs = null;
 		try {
 			fs = FileSystem.get(conf);
-			Path inputPath = new Path("hdfs://192.168.31.37:9000/hadoop-root-datanode-slave.log");
+			Path inputPath = new Path("hdfs://192.168.31.37:9000/test.log");
 
 			if (fs.exists(inputPath)) {
 				FileInputFormat.addInputPath(job, inputPath);

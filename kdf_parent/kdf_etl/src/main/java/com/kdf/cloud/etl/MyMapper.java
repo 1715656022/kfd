@@ -18,7 +18,7 @@ import com.kdf.cloud.utils.LogDecodeUtil;
 public class MyMapper extends Mapper<LongWritable, Text, NullWritable, Put> {
 
 	private int inputCount, filterCount, outputCount;
-	private byte[] family = Bytes.toBytes("test_name");
+	private byte[] family = Bytes.toBytes("clientType");
 	private CRC32 crc32 = new CRC32();
 
 	@Override
