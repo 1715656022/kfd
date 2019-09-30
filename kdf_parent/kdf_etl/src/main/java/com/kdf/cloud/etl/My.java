@@ -32,9 +32,9 @@ public class My extends BaseHadoop {
 		job.setMapOutputKeyClass(NullWritable.class);
 		job.setMapOutputValueClass(Put.class);
 		TableMapReduceUtil.initTableReducerJob("table_name_test", null, job, null, null, null, null, false);
-//		job.setNumReduceTasks(0);
+		job.setNumReduceTasks(0);
 
-		job.setReducerClass(MyReduce.class);
+//		job.setReducerClass(MyReduce.class);
 
 		// 设置输入路径
 		setJobInputPaths(job);
