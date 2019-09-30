@@ -1,6 +1,5 @@
 package com.kdf.cloud.utils;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,4 +27,17 @@ public class LogDecodeUtil {
 		
 		return resultMap;
 	}
+	
+	
+	public static String log2Str(String logStr) {
+		String resultStr = "";
+		try {
+			String subLogStr = logStr.substring(logStr.indexOf("?") + 1, logStr.lastIndexOf("H")).trim();
+			resultStr = URLDecoder.decode(subLogStr, "utf-8");
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
+		return resultStr;
+	}
 }
+
