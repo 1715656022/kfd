@@ -27,7 +27,7 @@ public class My extends BaseHadoop {
 
 		Job job = Job.getInstance(conf, My.class.getName());
 
-		job.setJarByClass(MrRunner.class);
+		job.setJarByClass(My.class);
 		job.setMapperClass(MyMapper.class);
 		job.setMapOutputKeyClass(NullWritable.class);
 		job.setMapOutputValueClass(Put.class);
