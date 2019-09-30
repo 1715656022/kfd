@@ -2,7 +2,6 @@ package com.kdf.cloud;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import org.apache.hadoop.conf.Configuration;
