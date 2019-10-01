@@ -1,14 +1,5 @@
 package com.kdf.etl.utils;
 
-/**
- * 定义具体的ip解析的类，最终调用IpSeeker类(父类)<br/>
- * 解析ip最终的返回时：国家名称 省份名称 城市名称<br/>
- * 如果是国外的ip，那么直接设置为unknown unknown unknown<br/>
- * 如果是国内ip，如果没法进行解析，那么就设置为中国 unknown unknown<br/>
- * 
- * @author root
- *
- */
 public class IPSeekerExt extends IPSeeker {
 
 	public static void main(String[] args) {
@@ -20,13 +11,6 @@ public class IPSeekerExt extends IPSeeker {
 
 	private RegionInfo DEFAULT_INFO = new RegionInfo();
 
-	/**
-	 * 解析ip地址，返回该ip地址对应的国家省份信息<br/>
-	 * 如果该ip解析失败，那么直接返回默认值
-	 * 
-	 * @param ip 要解析的ip地址，格式为: 120.197.87.216
-	 * @return
-	 */
 	public RegionInfo analyticIp(String ip) {
 		if (ip == null || ip.trim().isEmpty()) {
 			return DEFAULT_INFO;
@@ -122,18 +106,11 @@ public class IPSeekerExt extends IPSeeker {
 				}
 			}
 		} catch (Exception e) {
-			// 解析过程中出现异常
 			e.printStackTrace();
 		}
 		return info;
 	}
 
-	/**
-	 * ip地域相关的一个model
-	 * 
-	 * @author root
-	 *
-	 */
 	public static class RegionInfo {
 		public static final String DEFAULT_VALUE = GlobalConstants.DEFAULT_VALUE; // 默认值
 		private String country = DEFAULT_VALUE; // 国家

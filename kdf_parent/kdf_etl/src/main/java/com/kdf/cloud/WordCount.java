@@ -15,7 +15,13 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import com.kdf.cloud.base.BaseHadoop;
-
+/**
+ * https://hadmin.io/#get-started
+ * http://192.168.31.37:16301/rs-status
+ * http://jdk.java.net/9/
+ * @author Lenovo
+ *
+ */
 public class WordCount extends BaseHadoop {
 
 
@@ -83,8 +89,8 @@ public class WordCount extends BaseHadoop {
 	 * 将Map和Reduce操作执行
 	 */
 	public static void main(String[] args) throws Exception {
-		String inPath = "hdfs://192.168.31.37:9000/my.log";// 文件路径
-		String outDir = "hdfs://192.168.31.37:9000/word_count";// 输出目录，输出是建立一个目录，具体的内容在目录下
+		String inPath = "hdfs://192.168.0.105:9000/test.log";// 文件路径
+		String outDir = "hdfs://192.168.0.105:9000/word_count";// 输出目录，输出是建立一个目录，具体的内容在目录下
 
 		Configuration conf = new Configuration();
 		// 获取job，告诉他需要加载那个类
