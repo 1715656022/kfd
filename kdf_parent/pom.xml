@@ -11,6 +11,7 @@
 	<modules>
 		<module>kdf_etl</module>
 		<module>kdf_flow</module>
+		<module>kdf_etl_boot</module>
 	</modules>
 
 	<parent>
@@ -27,6 +28,19 @@
 		<mallat.uasparser>0.6.2</mallat.uasparser>
 		<apache.hadoop>2.7.1</apache.hadoop>
 	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+
+	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>

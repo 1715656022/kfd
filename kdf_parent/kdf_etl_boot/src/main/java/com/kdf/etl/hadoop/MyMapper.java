@@ -1,4 +1,4 @@
-package com.kdf.cloud.etl;
+package com.kdf.etl.hadoop;
 
 import java.io.IOException;
 import java.util.Map;
@@ -13,7 +13,7 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-import com.kdf.cloud.utils.LogDecodeUtil;
+import com.kdf.etl.utils.LogDecodeUtil;
 
 public class MyMapper extends Mapper<LongWritable, Text, NullWritable, Put> {
 

@@ -1,4 +1,4 @@
-package com.kdf.cloud.etl;
+package com.kdf.etl.contoller;
 
 import java.io.IOException;
 
@@ -17,22 +17,30 @@ import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.kdf.cloud.base.BaseHadoop;
+import com.kdf.etl.base.BaseHadoop;
+import com.kdf.etl.hadoop.MyMapper;
 
-public class My extends BaseHadoop {
+import lombok.extern.slf4j.Slf4j;
 
-	private static String ZK_HOST = "master:2181";
-	private final static String TABLENAME = "table_name_test";// 表名
-	private final static String COLF = "clientType";// 列族
+@Slf4j
+@RestController
+@RequestMapping("/test")
+public class TestController extends BaseHadoop {
 
-	public static void main(String[] args) throws Exception {
+	@GetMapping
+	@Async
+	public String test() throws Exception {
+		log.info("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
 		Configuration conf = getConf();
-		processArgs(conf, args);
-
-		Job job = Job.getInstance(conf, My.class.getName());
-
-		job.setJarByClass(My.class);
+		processArgs(conf);
+		Job job = Job.getInstance(conf, TestController.class.getName());
+		job.setJarByClass(TestController.class);
 		job.setMapperClass(MyMapper.class);
 		job.setMapOutputKeyClass(NullWritable.class);
 		job.setMapOutputValueClass(Put.class);
@@ -42,7 +50,16 @@ public class My extends BaseHadoop {
 		// 设置输入路径
 		setJobInputPaths(job);
 		job.waitForCompletion(true);
-		System.out.println("===============执行完成==============");
+		log.info("===============执行完成==============");
+
+		return "pook";
+	}
+
+	private static String ZK_HOST = "master:2181";
+	private final static String TABLENAME = "table_name_test";// 表名
+	private final static String COLF = "clientType";// 列族
+
+	public static void main(String[] args) throws Exception {
 
 	}
 
@@ -69,15 +86,16 @@ public class My extends BaseHadoop {
 		TableName tableName = TableName.valueOf(TABLENAME);
 		if (admin.tableExists(tableName)) {
 			System.out.println("0table is already exists!");
+			// 删除表
+//		admin.disableTable(tableName);
+//		admin.deleteTable(tableName);
+		} else {
 			// 创建表
 			HTableDescriptor desc = new HTableDescriptor(tableName);
 			HColumnDescriptor family = new HColumnDescriptor(COLF);
 			desc.addFamily(family);
 			admin.createTable(desc);
 		}
-		// 删除表
-//		admin.disableTable(tableName);
-//		admin.deleteTable(tableName);
 
 	}
 
@@ -87,7 +105,7 @@ public class My extends BaseHadoop {
 	 * @param conf
 	 * @param args
 	 */
-	private static void processArgs(Configuration conf, String[] args) {
+	private static void processArgs(Configuration conf) {
 		conf.set("file", "");
 	}
 
@@ -115,4 +133,5 @@ public class My extends BaseHadoop {
 			}
 		}
 	}
+
 }

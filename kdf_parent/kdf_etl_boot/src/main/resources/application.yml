@@ -1,0 +1,13 @@
+server:
+   port: 9999
+   servlet:
+      context-path: /etl
+   tomcat:
+      uri-encoding: UTF-8    
+spring:
+  hadoop:
+    config:
+      fs.defaultFS: hdfs://localhost:8020
+hbase:
+  zookeeper:
+    quorum: master:2181
