@@ -4,6 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import lombok.Data;
 
+
 @Data
 @ConfigurationProperties(prefix = DataSourceCommonProperties.DS, ignoreUnknownFields = false)
 public class DataSourceCommonProperties {

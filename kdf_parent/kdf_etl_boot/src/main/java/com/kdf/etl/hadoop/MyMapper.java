@@ -13,12 +13,13 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
+import com.kdf.etl.contoller.TestController2;
 import com.kdf.etl.utils.LogDecodeUtil;
 
 public class MyMapper extends Mapper<LongWritable, Text, NullWritable, Put> {
 
 	private int inputCount, filterCount, outputCount;
-	private byte[] family = Bytes.toBytes("clientType");
+	private byte[] family = Bytes.toBytes(TestController2.COLF);
 	private CRC32 crc32 = new CRC32();
 
 	@Override
