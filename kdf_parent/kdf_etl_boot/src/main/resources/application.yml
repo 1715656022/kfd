@@ -4,10 +4,32 @@ server:
       context-path: /etl
    tomcat:
       uri-encoding: UTF-8    
-spring:
-  hadoop:
-    config:
-      fs.defaultFS: hdfs://localhost:8020
 hbase:
   zookeeper:
     quorum: master:2181
+    
+
+#配置多个数据源(这里测试hive数据源)
+spring:
+    datasource:
+      hive: #hive数据源
+          url: jdbc:hive2://47.100.200.200:9019/default
+          type: com.alibaba.druid.pool.DruidDataSource
+          username: sixmonth
+          password: sixmonth
+          driver-class-name: org.apache.hive.jdbc.HiveDriver
+      commonConfig: #连接池统一配置，应用到所有的数据源 
+         initialSize: 1
+         minIdle: 1
+         maxIdle: 5
+         maxActive: 50
+         maxWait: 10000
+         timeBetweenEvictionRunsMillis: 10000
+         minEvictableIdleTimeMillis: 300000
+         validationQuery: select 'x'
+         testWhileIdle: true
+         testOnBorrow: false
+         testOnReturn: false
+         poolPreparedStatements: true
+         maxOpenPreparedStatements: 20
+         filters: stat

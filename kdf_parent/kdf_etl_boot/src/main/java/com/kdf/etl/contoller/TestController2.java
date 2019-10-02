@@ -1,8 +1,9 @@
 package com.kdf.etl.contoller;
 
 import java.io.IOException;
+import java.util.List;
 
-import javax.validation.constraints.Future;
+import javax.annotation.Resource;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -21,7 +22,6 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.hadoop.hbase.HbaseSynchronizationManager;
-import org.springframework.data.hadoop.hbase.HbaseTemplate;
 import org.springframework.data.hadoop.hive.HiveTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,17 +36,20 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/test2")
 public class TestController2 extends BaseHadoop {
-	
+
 //	@Autowired
 //	private HbaseTemplate hbaseTemplate;
-	
-//	@Autowired
-//	private HiveTemplate hiveTemplate;
+@Resource(name="hiveTemplate")
+	private HiveTemplate hiveTemplate;
 
 	@GetMapping
-	@Future
 	public String test() throws Exception {
 		
+
+		List<String> query = hiveTemplate.query("select name from tablename limit 0,10");
+		  for(String x:query) {
+			  System.out.println(x+"============================================================================");
+		  }
 
 		Configuration conf = getConf();
 		processArgs(conf);
@@ -62,26 +65,27 @@ public class TestController2 extends BaseHadoop {
 		setJobInputPaths(job);
 		job.waitForCompletion(true);
 		log.info("===============执行完成==============");
-		
-		System.out.println(HbaseSynchronizationManager.getTableNames()+"========================");
+
+		System.out.println(HbaseSynchronizationManager.getTableNames() + "========================");
 
 		return "pook";
 	}
 
 	private static String ZK_HOST = "master:2181";
 	private final static String TABLENAME = "table_name_test";// 表名
-	private final static String COLF = "clientType";// 列族
+	public final static String COLF = "log";// 列族
+
+	private static final String HDFS_HOST = "hdfs://192.168.0.105:9000";
 
 	public static void main(String[] args) throws Exception {
 
 	}
 
 	private static Connection connection;
-	
 
-	public  Configuration getConf() {
+	public Configuration getConf() {
 		Configuration conf = new Configuration();
-		conf.set("fs.defaultFS", "hdfs://192.168.0.105:9000");
+		conf.set("fs.defaultFS", HDFS_HOST);
 		conf.set("hbase.zookeeper.quorum", ZK_HOST);
 		conf = HBaseConfiguration.create(conf);
 		try {
@@ -93,10 +97,8 @@ public class TestController2 extends BaseHadoop {
 		return conf;
 	}
 
-	private  void createTable() throws IOException {
-
+	private void createTable() throws IOException {
 		Admin admin = connection.getAdmin();
-		// 删除表
 		TableName tableName = TableName.valueOf(TABLENAME);
 		if (admin.tableExists(tableName)) {
 			System.out.println("0table is already exists!");
@@ -110,7 +112,7 @@ public class TestController2 extends BaseHadoop {
 			desc.addFamily(family);
 			admin.createTable(desc);
 		}
-		
+
 //		 finally {
 //	            try {
 //	                if (admin != null) {
@@ -133,7 +135,7 @@ public class TestController2 extends BaseHadoop {
 	 * @param conf
 	 * @param args
 	 */
-	private  void processArgs(Configuration conf) {
+	private void processArgs(Configuration conf) {
 		conf.set("file", "");
 	}
 
@@ -142,13 +144,11 @@ public class TestController2 extends BaseHadoop {
 		FileSystem fs = null;
 		try {
 			fs = FileSystem.get(conf);
-			Path inputPath = new Path("hdfs://192.168.0.105:9000/test.log");
-
-			if (fs.exists(inputPath)) {
-				FileInputFormat.addInputPath(job, inputPath);
-			} else {
+			Path inputPath = new Path(HDFS_HOST + "/test.log");
+			if (!fs.exists(inputPath)) {
 				throw new RuntimeException("文件不存在:" + inputPath);
 			}
+			FileInputFormat.addInputPath(job, inputPath);
 		} catch (IOException e) {
 			throw new RuntimeException("设置输入路径出现异常", e);
 		} finally {
