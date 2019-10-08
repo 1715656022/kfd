@@ -6,7 +6,7 @@ server:
       uri-encoding: UTF-8    
 hbase:
   zookeeper:
-    quorum: master:2181
+    quorum: 192.168.31.37:2181
     
 
 #配置多个数据源(这里测试hive数据源)

@@ -40,19 +40,25 @@ public class TestController2 extends BaseHadoop {
 //	@Autowired
 //	private HbaseTemplate hbaseTemplate;
 
+	static final String ip = "192.168.31.37";
+
+	private static final String HDFS_HOST = "hdfs://" + ip + ":9000";
+	private static String ZK_HOST = ip + ":2181";
+	private final static String TABLENAME = "table_name_test";// 表名
+	public final static String COLF = "log";// 列族
+
 	@Autowired
 	private HiveTemplate hiveTemplate;
 
 	@GetMapping
 	public String test() throws Exception {
-		
 
 		List<String> query = hiveTemplate.query("select *  from emp limit 0,10");
-		
-		System.out.println("================="+query);
-		  for(String x:query) {
-			  System.out.println(x+"============================================================================");
-		  }
+
+		System.out.println("=================" + query);
+		for (String x : query) {
+			System.out.println(x + "============================================================================");
+		}
 
 		Configuration conf = getConf();
 		processArgs(conf);
@@ -73,12 +79,6 @@ public class TestController2 extends BaseHadoop {
 
 		return "pook";
 	}
-
-	private static String ZK_HOST = "master:2181";
-	private final static String TABLENAME = "table_name_test";// 表名
-	public final static String COLF = "log";// 列族
-
-	private static final String HDFS_HOST = "hdfs://192.168.0.105:9000";
 
 	public static void main(String[] args) throws Exception {
 
