@@ -6,17 +6,18 @@ import javax.sql.DataSource;
 
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.hadoop.hbase.HbaseTemplate;
 import org.springframework.data.hadoop.hive.HiveClientFactory;
 import org.springframework.data.hadoop.hive.HiveClientFactoryBean;
 import org.springframework.data.hadoop.hive.HiveTemplate;
 
 import com.alibaba.druid.pool.DruidDataSource;
-@Configurable
+//@Configurable
+@Configuration
 public class InitConfig {
 	@Bean
 	public HbaseTemplate hbaseTemplate(@Value("${hbase.zookeeper.quorum}") String quorum) {
