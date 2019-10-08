@@ -39,14 +39,17 @@ public class TestController2 extends BaseHadoop {
 
 //	@Autowired
 //	private HbaseTemplate hbaseTemplate;
-@Resource(name="hiveTemplate")
+
+	@Autowired
 	private HiveTemplate hiveTemplate;
 
 	@GetMapping
 	public String test() throws Exception {
 		
 
-		List<String> query = hiveTemplate.query("select name from tablename limit 0,10");
+		List<String> query = hiveTemplate.query("select *  from emp limit 0,10");
+		
+		System.out.println("================="+query);
 		  for(String x:query) {
 			  System.out.println(x+"============================================================================");
 		  }
