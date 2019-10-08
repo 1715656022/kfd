@@ -1,14 +1,16 @@
 package com.kdf.etl.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 import lombok.Data;
 
 
 @Data
+@Component
 @ConfigurationProperties(prefix = DataSourceCommonProperties.DS, ignoreUnknownFields = false)
 public class DataSourceCommonProperties {
-	final static String DS = "spring.datasource.commonConfig";
+	final static String DS = "spring.datasource.common-config";
 
 	private int initialSize = 10;
 	private int minIdle;
