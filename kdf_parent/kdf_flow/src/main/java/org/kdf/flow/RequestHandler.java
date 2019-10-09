@@ -71,7 +71,7 @@ public class RequestHandler implements HandlerInterceptor {
 
 		
 		ThreadTask.getInstance().addTask(() -> {
-			HttpClient.doGet(NGINX_REQUEST_URL, initParaMap(url, ipAddr, port, method, userAgent, String.valueOf(System.currentTimeMillis())));
+			HttpClient.doGet(NGINX_REQUEST_URL, initParaMap(url, ipAddr, port, method, userAgent, String.valueOf(System.currentTimeMillis()).substring(0, 10)));
 		});
 		
 		return true;
