@@ -1,3 +1,4 @@
+package kdf_etl_boot.hive;
 //package com.kdf.etl.contoller;
 //import java.io.IOException;
 //import java.sql.Connection;

@@ -48,7 +48,7 @@ public class TestController2 extends BaseHadoop {
 
 	private static final String HDFS_HOST = "hdfs://" + ip + ":9000";
 	private static String ZK_HOST = ip + ":2181";
-	private final static String TABLENAME = "table_name_test";// 表名
+	private final static String TABLENAME = "my_test_hive";// 表名
 	public final static String COLF = "log";// 列族
 
 	@Autowired
@@ -57,30 +57,12 @@ public class TestController2 extends BaseHadoop {
 	@GetMapping
 	public String test() throws Exception {
 
-		List<String> query = hiveTemplate.query("select *  from emp limit 0,10");
+		List<String> query = hiveTemplate.query("select clientType  from my_test_hive limit 0,10");
 
 		System.out.println("=================" + query);
 		for (String x : query) {
 			System.out.println(x + "============================================================================");
 		}
-
-		Configuration conf = getConf();
-		processArgs(conf);
-		Job job = Job.getInstance(conf, TestController2.class.getName());
-		job.setJarByClass(TestController2.class);
-		job.setMapperClass(MyMapper.class);
-		job.setMapOutputKeyClass(NullWritable.class);
-		job.setMapOutputValueClass(Put.class);
-		TableMapReduceUtil.initTableReducerJob(TABLENAME, null, job, null, null, null, null, false);
-		job.setNumReduceTasks(0);
-//		job.setReducerClass(MyReduce.class);
-		// 设置输入路径
-		setJobInputPaths(job);
-		job.waitForCompletion(true);
-		log.info("===============执行完成==============");
-
-		System.out.println(HbaseSynchronizationManager.getTableNames() + "========================");
-
 		return "pook";
 	}
 	@GetMapping("/test2")

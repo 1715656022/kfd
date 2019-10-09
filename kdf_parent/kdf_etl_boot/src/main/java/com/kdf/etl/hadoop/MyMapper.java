@@ -1,6 +1,7 @@
 package com.kdf.etl.hadoop;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 import java.util.zip.CRC32;
@@ -60,6 +61,8 @@ public class MyMapper extends Mapper<LongWritable, Text, NullWritable, Put> {
 				put.addColumn(family, Bytes.toBytes(entry.getKey()), Bytes.toBytes(entry.getValue()));
 			}
 		}
+		
+		put.addColumn(family, Bytes.toBytes("create_time"), Bytes.toBytes(new Date().toLocaleString()));
 		context.write(NullWritable.get(), put);
 		this.outputCount++;
 	}
