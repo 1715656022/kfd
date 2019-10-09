@@ -17,7 +17,7 @@ zookeeper:
 spring:
     datasource:
       hive: #hive数据源
-          url: jdbc:hive2://192.168.31.37:10000/default
+          url: jdbc:hive2://192.168.31.37:10000/my_hive
           type: com.alibaba.druid.pool.DruidDataSource
           driver-class-name: org.apache.hive.jdbc.HiveDriver
       common-config: #连接池统一配置，应用到所有的数据源 
