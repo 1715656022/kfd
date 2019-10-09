@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="html/commons/commons :: commonHead"></head>
+<meta charset="UTF-8">
+<body class="layui-layout-body">
+	<div class="layadmin-tabspage-none">
+		<div class="layui-layout layui-layout-admin">
+			<!-- 头 -->
+			<div th:replace="html/commons/head :: head"></div>
+			<!-- 菜单 -->
+			<div th:replace="html/commons/menu :: menu"></div>
+			<!-- 内容 -->
+			<div class="layui-body">
+				<div id="body-content"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
