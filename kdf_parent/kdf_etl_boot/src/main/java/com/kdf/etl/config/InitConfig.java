@@ -19,16 +19,16 @@ import com.alibaba.druid.pool.DruidDataSource;
 //@Configurable
 @Configuration
 public class InitConfig {
-	@Bean
-	public HbaseTemplate hbaseTemplate(@Value("${hbase.zookeeper.quorum}") String quorum) {
-		HbaseTemplate hbaseTemplate = new HbaseTemplate();
-		org.apache.hadoop.conf.Configuration conf = HBaseConfiguration.create();
-		conf.set("hbase.zookeeper.quorum", quorum);
-//		conf.set("hbase.zookeeper.port", port);
-		hbaseTemplate.setConfiguration(conf);
-		hbaseTemplate.setAutoFlush(true);
-		return hbaseTemplate;
-	}
+//	@Bean
+//	public HbaseTemplate hbaseTemplate(@Value("${hbase.zookeeper.quorum}") String quorum) {
+//		HbaseTemplate hbaseTemplate = new HbaseTemplate();
+//		org.apache.hadoop.conf.Configuration conf = HBaseConfiguration.create();
+//		conf.set("hbase.zookeeper.quorum", quorum);
+////		conf.set("hbase.zookeeper.port", port);
+//		hbaseTemplate.setConfiguration(conf);
+//		hbaseTemplate.setAutoFlush(true);
+//		return hbaseTemplate;
+//	}
 
 	@Bean() // 新建bean实例
 	

@@ -7,7 +7,11 @@ server:
 hbase:
   zookeeper:
     quorum: 192.168.31.37:2181
-    
+    property:
+      clientPort: 2181
+zookeeper:
+  znode:
+    parent: /hbase
 
 #配置多个数据源(这里测试hive数据源)
 spring:
