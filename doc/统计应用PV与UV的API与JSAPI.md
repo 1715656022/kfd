@@ -49,15 +49,15 @@ maven
 
 `url` 客户端请求全路径
 
-`ipAddr` 客户端请求ip地址
+`ip` 客户端请求ip地址
 
 `port` 客户端请求端口
 
 `method` 客户端请求方式(GET, PUT, POST, DELETE等)
 
-`userAgent` 客户端信息(包括浏览器内核与版本，系统内核与版本)
+`user_agent` 客户端信息(包括浏览器内核与版本，系统内核与版本)
 
-`requestTime` 客户端请求时间(时间戳)
+`request_time` 客户端请求时间(时间戳)
 
 #### JS
 
