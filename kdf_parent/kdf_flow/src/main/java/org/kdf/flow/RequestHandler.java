@@ -45,8 +45,8 @@ public class RequestHandler implements HandlerInterceptor {
     public static final String IP_ADDR_KEY = "ip";
     public static final String PORT_KET = "port";
     public static final String REQUEST_METHOD_KEY = "method";
-    public static final String CLIENT_TYPE_KEY = "clientType";
-    public static final String REQUEST_TIME = "requestTime";
+	public static final String USER_AGENT = "user_agent";
+    public static final String REQUEST_TIME = "request_time";
     
 //    public static final String NGINX_REQUEST_URL = "http://47.93.53.233:80";
     public static final String NGINX_REQUEST_URL = "";
@@ -132,13 +132,13 @@ public class RequestHandler implements HandlerInterceptor {
 	 * @param clientType		客户端类型
 	 * @return 
 	 */
-	public static Map<String, String> initParaMap(String url, String ip, int port, String method, String clientType, String requestTime) {
+	public static Map<String, String> initParaMap(String url, String ip, int port, String method, String userAgent, String requestTime) {
 		Map<String, String> paraMap = new HashMap<>();
 		paraMap.put(URL_KEY, url);
 		paraMap.put(IP_ADDR_KEY, ip);
 		paraMap.put(PORT_KET, String.valueOf(port));
 		paraMap.put(REQUEST_METHOD_KEY, method);
-		paraMap.put(CLIENT_TYPE_KEY, clientType);
+		paraMap.put(USER_AGENT, userAgent);
 		paraMap.put(REQUEST_TIME, requestTime);
 		return paraMap;
 	}
