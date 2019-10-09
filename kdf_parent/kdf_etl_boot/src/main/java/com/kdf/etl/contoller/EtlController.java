@@ -43,7 +43,7 @@ public class EtlController {
 	private static String ZK_HOST = IP+":2181";
 	private final static String TABLENAME = "pv_log";// 表名
 	public final static String COLF = "log";// 列族
-
+ 
 	@GetMapping("start")
 	public String start() throws Exception {
 		log.info("===============数据清洗执行开始==============\"");
