@@ -12,6 +12,7 @@
 		<module>kdf_etl</module>
 		<module>kdf_flow</module>
 		<module>kdf_etl_boot</module>
+		<module>kdf_web</module>
 	</modules>
 
 	<parent>
@@ -44,10 +45,11 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
-				<scope>${mysql.connector}</scope>
+				<version>8.0.17</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba</groupId>
@@ -78,6 +80,16 @@
 				<groupId>org.apache.hadoop</groupId>
 				<artifactId>hadoop-client</artifactId>
 				<version>${apache.hadoop}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.penggle</groupId>
+				<artifactId>kaptcha</artifactId>
+				<version>${penggle.kaptcha}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.aliyun</groupId>
+				<artifactId>aliyun-java-sdk-core</artifactId>
+				<version>4.1.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

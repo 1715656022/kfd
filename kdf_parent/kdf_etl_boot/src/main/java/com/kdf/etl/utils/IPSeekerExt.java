@@ -3,7 +3,7 @@ package com.kdf.etl.utils;
 public class IPSeekerExt extends IPSeeker {
 
 	public static void main(String[] args) {
-		RegionInfo a = new IPSeekerExt().analyticIp("192.168.0.105");
+		RegionInfo a = new IPSeekerExt().analyticIp("111.42.155.48");
 		System.out.println(a.getCity());
 		System.out.println(a.getCountry());
 		System.out.println(a.getProvince());
