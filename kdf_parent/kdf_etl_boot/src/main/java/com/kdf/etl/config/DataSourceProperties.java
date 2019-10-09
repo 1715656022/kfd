@@ -12,7 +12,7 @@ import lombok.Data;
 @Component
 @ConfigurationProperties(prefix = DataSourceProperties.DATASOURCE, ignoreUnknownFields = false)
 public class DataSourceProperties {
-	final static String DATASOURCE = "spring.datasource";
+	final static String DATASOURCE = "kdf.datasource";
 
 	private Map<String, String> hive;
 

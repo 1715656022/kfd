@@ -10,7 +10,7 @@ import lombok.Data;
 @Component
 @ConfigurationProperties(prefix = DataSourceCommonProperties.DS, ignoreUnknownFields = false)
 public class DataSourceCommonProperties {
-	final static String DS = "spring.datasource.common-config";
+	final static String DS = "kdf.datasource.common-config";
 
 	private int initialSize = 10;
 	private int minIdle;
