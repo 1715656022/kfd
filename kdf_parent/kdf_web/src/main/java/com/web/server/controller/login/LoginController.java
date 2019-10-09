@@ -1,0 +1,119 @@
+package com.web.server.controller.login;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.web.server.base.BaseResponse;
+import com.web.server.base.ResultCode;
+import com.web.server.bean.PbUser;
+import com.web.server.dto.MenuDTO;
+import com.web.server.service.MenuService;
+import com.web.server.service.UserService;
+import com.web.server.utils.SecurityUtil;
+
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.CircleCaptcha;
+
+@RestController
+public class LoginController {
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private MenuService menuService;
+
+	@GetMapping("")
+	public ModelAndView index() {
+		return new ModelAndView("html/index");
+	}
+
+	/**
+	 * loginAjax 登录
+	 * 
+	 * @param session
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	@PostMapping("/loginAjax")
+	@ResponseBody
+	public ResponseEntity<BaseResponse<String>> loginAjax(HttpSession session, String username, String password,
+			String code) {
+		BaseResponse<String> res = null;
+		// 验证码
+		Object verificationCode = session.getAttribute("verificationCode");
+		if (!verificationCode.equals(code)) {
+			res = new BaseResponse<String>(ResultCode.ERROR.getCode(), "验证码输入有误");
+			return res.sendResponse();
+		}
+		// 用户名密码
+		PbUser userBean = userService.findByUserName(username);
+		if (userBean == null) {
+			res = new BaseResponse<String>(ResultCode.ERROR.getCode(), "用户不存在");
+			return res.sendResponse();
+		}
+		String logpwd = SecurityUtil.getLogpwd(password,userBean.getSaltVal());
+		if (!logpwd.equals(userBean.getPassword())) {
+			res = new BaseResponse<String>(ResultCode.ERROR.getCode(), "用户名密码错误");
+			return res.sendResponse();
+		}  
+		// 获取菜单
+		List<MenuDTO> menuDTOList = menuService.findByUserId(userBean.getUserId());
+		session.setAttribute("user", userBean);
+		session.setAttribute("menu", menuDTOList);
+		res = new BaseResponse<String>(ResultCode.OK.getCode(), "成功");
+		return res.sendResponse();
+	}
+
+	/**
+	 * outLogin 退出登录
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping("/outLogin")
+	public ModelAndView outLogin(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("user");
+		return new ModelAndView("redirect:");
+	}
+
+	/**
+	 * defaultKaptcha 生成验证码
+	 * 
+	 * @param httpServletRequest
+	 * @param httpServletResponse
+	 * @throws Exception
+	 */
+	@GetMapping("/defaultKaptcha")
+	public void defaultKaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+		try {
+			CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(200, 100, 4, 4);
+			httpServletRequest.getSession().setAttribute("verificationCode", captcha.getCode());
+			ServletOutputStream responseOutputStream = httpServletResponse.getOutputStream();
+			captcha.write(responseOutputStream);
+			responseOutputStream.flush();
+			responseOutputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+	
+}
