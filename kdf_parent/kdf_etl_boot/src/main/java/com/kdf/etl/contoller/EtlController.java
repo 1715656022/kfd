@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kdf.etl.constant.Constants;
 import com.kdf.etl.hadoop.MyMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -35,14 +36,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/rest")
 public class EtlController {
-	
-	private static String IP = "192.168.31.37";
-	
-	private static String HDFS = "hdfs://"+IP+":9000";
-	
-	private static String ZK_HOST = IP+":2181";
-	private final static String TABLENAME = "pv_log";// 表名
-	public final static String COLF = "log";// 列族
  
 	@GetMapping("start")
 	public String start() throws Exception {
@@ -55,7 +48,7 @@ public class EtlController {
 		job.setMapperClass(MyMapper.class);
 		job.setMapOutputKeyClass(NullWritable.class);
 		job.setMapOutputValueClass(Put.class);
-		TableMapReduceUtil.initTableReducerJob(TABLENAME, null, job, null, null, null, null, false);
+		TableMapReduceUtil.initTableReducerJob(Constants.TABLENAME, null, job, null, null, null, null, false);
 		job.setNumReduceTasks(0);
 //		job.setReducerClass(MyReduce.class);
 		// 设置输入路径
@@ -71,8 +64,8 @@ public class EtlController {
 
 	public static Configuration getConf() {
 		Configuration conf = new Configuration();
-		conf.set("fs.defaultFS", HDFS);
-		conf.set("hbase.zookeeper.quorum", ZK_HOST);
+		conf.set("fs.defaultFS", Constants.HDFS);
+		conf.set("hbase.zookeeper.quorum", Constants.ZK_HOST);
 		conf = HBaseConfiguration.create(conf);
 		try {
 			connection = ConnectionFactory.createConnection(conf);
@@ -87,7 +80,7 @@ public class EtlController {
 
 		Admin admin = connection.getAdmin();
 		// 删除表
-		TableName tableName = TableName.valueOf(TABLENAME);
+		TableName tableName = TableName.valueOf(Constants.TABLENAME);
 		if (admin.tableExists(tableName)) {
 			System.out.println("0table is already exists!");
 			// 删除表
@@ -96,7 +89,7 @@ public class EtlController {
 		} else {
 			// 创建表
 			HTableDescriptor desc = new HTableDescriptor(tableName);
-			HColumnDescriptor family = new HColumnDescriptor(COLF);
+			HColumnDescriptor family = new HColumnDescriptor(Constants.COLF);
 			desc.addFamily(family);
 			admin.createTable(desc);
 		}
@@ -118,7 +111,7 @@ public class EtlController {
 		FileSystem fs = null;
 		try {
 			fs = FileSystem.get(conf);
-			Path inputPath = new Path(HDFS+"/test.log");
+			Path inputPath = new Path(Constants.HDFS+"/test.log");
 
 			if (fs.exists(inputPath)) {
 				FileInputFormat.addInputPath(job, inputPath);

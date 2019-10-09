@@ -14,13 +14,14 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
+import com.kdf.etl.constant.Constants;
 import com.kdf.etl.contoller.EtlController;
 import com.kdf.etl.utils.LogDecodeUtil;
 
 public class MyMapper extends Mapper<LongWritable, Text, NullWritable, Put> {
 
 	private int inputCount, filterCount, outputCount;
-	private byte[] family = Bytes.toBytes(EtlController.COLF);
+	private byte[] family = Bytes.toBytes(Constants.COLF);
 	private CRC32 crc32 = new CRC32();
 
 	@Override
