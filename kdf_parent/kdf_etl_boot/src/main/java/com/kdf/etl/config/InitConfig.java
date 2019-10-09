@@ -14,6 +14,7 @@ import org.springframework.data.hadoop.hbase.HbaseTemplate;
 import org.springframework.data.hadoop.hive.HiveClientFactory;
 import org.springframework.data.hadoop.hive.HiveClientFactoryBean;
 import org.springframework.data.hadoop.hive.HiveTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.alibaba.druid.pool.DruidDataSource;
 //@Configurable
@@ -49,6 +50,13 @@ public class InitConfig {
 		return hiveTemplate;
 	}
 
+	@Bean
+	@Qualifier("hiveJdbcTemplate")
+	public JdbcTemplate hiveJdbcTemplate() {
+		return new JdbcTemplate(dataSource());
+	}
+	
+	
 	@Autowired
 	private DataSourceProperties dataSourceProperties;
 
