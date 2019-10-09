@@ -33,21 +33,25 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/rest")
 public class EtlController {
 	
-	private static String ZK_HOST = "master:2181";
-	private final static String TABLENAME = "table_name_test";// 表名
-	private final static String COLF = "clientType";// 列族
+	private static String IP = "192.168.31.37";
+	
+	private static String HDFS = "hdfs://"+IP+":9000";
+	
+	private static String ZK_HOST = IP+":2181";
+	private final static String TABLENAME = "pv_log";// 表名
+	public final static String COLF = "log";// 列族
 
-	@GetMapping
+	@GetMapping("start")
 	public String start() throws Exception {
 		log.info("===============数据清洗执行开始==============\"");
 
 		Configuration conf = getConf();
 		processArgs(conf);
-		Job job = Job.getInstance(conf, TestController.class.getName());
-		job.setJarByClass(TestController.class);
+		Job job = Job.getInstance(conf, EtlController.class.getName());
+		job.setJarByClass(EtlController.class);
 		job.setMapperClass(MyMapper.class);
 		job.setMapOutputKeyClass(NullWritable.class);
 		job.setMapOutputValueClass(Put.class);
@@ -67,7 +71,7 @@ public class EtlController {
 
 	public static Configuration getConf() {
 		Configuration conf = new Configuration();
-		conf.set("fs.defaultFS", "hdfs://192.168.0.105:9000");
+		conf.set("fs.defaultFS", HDFS);
 		conf.set("hbase.zookeeper.quorum", ZK_HOST);
 		conf = HBaseConfiguration.create(conf);
 		try {
@@ -114,7 +118,7 @@ public class EtlController {
 		FileSystem fs = null;
 		try {
 			fs = FileSystem.get(conf);
-			Path inputPath = new Path("hdfs://192.168.0.105:9000/test.log");
+			Path inputPath = new Path(HDFS+"/test.log");
 
 			if (fs.exists(inputPath)) {
 				FileInputFormat.addInputPath(job, inputPath);

@@ -14,13 +14,13 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-import com.kdf.etl.contoller.TestController2;
+import com.kdf.etl.contoller.EtlController;
 import com.kdf.etl.utils.LogDecodeUtil;
 
 public class MyMapper extends Mapper<LongWritable, Text, NullWritable, Put> {
 
 	private int inputCount, filterCount, outputCount;
-	private byte[] family = Bytes.toBytes(TestController2.COLF);
+	private byte[] family = Bytes.toBytes(EtlController.COLF);
 	private CRC32 crc32 = new CRC32();
 
 	@Override
@@ -54,7 +54,7 @@ public class MyMapper extends Mapper<LongWritable, Text, NullWritable, Put> {
 	private void handleData(Map<String, String> clientInfo, Context context) throws IOException, InterruptedException {
 		String uuid = UUID.randomUUID().toString();
 		String memberId = "pc_no";// 机器号
-		String rowkey = this.generateRowKey(uuid, memberId, "");
+		String rowkey = this.generateRowKey(uuid, memberId, System.currentTimeMillis()+"");
 		Put put = new Put(Bytes.toBytes(rowkey));
 		for (Map.Entry<String, String> entry : clientInfo.entrySet()) {
 			if (StringUtils.isNotBlank(entry.getKey()) && StringUtils.isNotBlank(entry.getValue())) {

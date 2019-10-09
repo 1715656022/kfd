@@ -4,10 +4,6 @@ import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.kdf.etl.utils.UserAgentUtil.UserAgentInfo;
-
-import lombok.Data;
-
 public class LogDecodeUtil {
 
 	private static String testStr = "GET /?clientType=Mozilla%2F5.0+%28Windows+NT+6.1%3B+Win64%3B+x64%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F77.0.3865.90+Safari%2F537.36&method=GET&port=62000&ip=192.168.31.8&url=http%3A%2F%2Flocalhost%3A8080%2Fadd HTTP/1.1";
@@ -36,25 +32,6 @@ public class LogDecodeUtil {
 				}
 				i++;
 			}
-			
-
-//			LogAgent agent = new LogDecodeUtil().new LogAgent();
-//			String clientType = decodeLogArray[0].split("=")[1];
-//			UserAgentInfo userAgentInfo = UserAgentUtil.analyticUserAgent(clientType);
-//			clientType = userAgentInfo.getBrowserName();
-//			agent.setClientType(clientType);
-//
-//			String method = decodeLogArray[1].split("=")[1];
-//			agent.setMethod(method);
-//
-//			String port = decodeLogArray[2].split("=")[1];
-//			agent.setPort(port);
-//
-//			String ip = decodeLogArray[3].split("=")[1];
-//			agent.setIp(ip);
-//
-//			String url = decodeLogArray[3].split("=")[1];
-//			agent.setUrl(url);
 
 		} catch (Exception e) {
 //			e.printStackTrace();
@@ -74,12 +51,4 @@ public class LogDecodeUtil {
 		return resultStr;
 	}
 
-	@Data
-	class LogAgent {
-		private String clientType;
-		private String method;
-		private String ip;
-		private String port;
-		private String url;
-	}
 }
