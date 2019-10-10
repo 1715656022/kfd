@@ -25,6 +25,14 @@ import com.kdf.etl.service.HiveJdbcService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * @ClassName: EtlJob
+ * @Description: mr数据清洗
+ * @author 王者の南が少ない 1715656022@qq.com
+ * @date 2019年10月10日 上午11:04:44
+ * 
+ */
 @Slf4j
 @Component
 public class EtlJob  extends BaseHadoop{
