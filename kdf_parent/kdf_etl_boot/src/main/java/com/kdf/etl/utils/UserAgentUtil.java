@@ -38,6 +38,9 @@ public class UserAgentUtil {
 			try {
 				cz.mallat.uasparser.UserAgentInfo info = null;
 				info = uasParser.parse(userAgent);
+				System.out.println("================");
+				System.out.println(info);
+				System.out.println("================");
 				result = new UserAgentInfo();
 				result.setBrowserName(info.getUaFamily());
 				result.setBrowserVersion(info.getBrowserVersionInfo());

@@ -9,4 +9,5 @@ public class Constants {
 	public static String ZK_HOST = IP + ":2181";
 	public final static String TABLENAME = "pv_log_";// 表名
 	public final static String COLF = "log";// 列族
+	
 }

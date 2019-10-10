@@ -46,13 +46,13 @@ public class EtlJob  extends BaseHadoop{
 	private HiveJdbcService hiveJdbcService;
 
 	static String dfs = "yyyy_MM_dd_HH";
-	static String dfs_year = "yyyy-MM-dd";
+	static String dfs_year = "yyyyMMdd";
 	static String dfs_hour = "HH";
 	
 	String sqlTemplet = "CREATE EXTERNAL TABLE ^HIVETABLENAME^ \r\n" + 
-			"(key string,appid string, user_agent string, method string,ip string,port string,url string,request_time string)  \r\n" + 
+			"(key string,appid string,  method string,ip string,port string,url string,request_time string,country string,province string,city string,os_name string,os_version string,browser_name string,browser_version string,device_type string)  \r\n" + 
 			"STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'  \r\n" + 
-			"WITH SERDEPROPERTIES (\"hbase.columns.mapping\" = \":key,log:appid,log:user_agent,log:method,log:ip,log:port,log:url,log:request_time\")  \r\n" + 
+			"WITH SERDEPROPERTIES (\"hbase.columns.mapping\" = \":key,log:appid,log:method,log:ip,log:port,log:url,log:request_time,log:country,log:province,log:city,log:os_name,log:os_version,log:browser_name,log:browser_version,log:device_type\")  \r\n" + 
 			"TBLPROPERTIES (\"hbase.table.name\" = \"^HBASETABLENAME^\")";
 	
 //	@Scheduled(fixedRate = 100000)
@@ -64,11 +64,11 @@ public class EtlJob  extends BaseHadoop{
 		String hiveTableName = Constants.TABLENAME +"hive_"+ nowDate;
 		
 		
-		String year = DateTimeFormatter.ofPattern(dfs_year).format(LocalDateTime.now());
+		String year = DateTimeFormatter.ofPattern(dfs_year).format(LocalDateTime.now().minusHours(1));
 		
-		String hour = DateTimeFormatter.ofPattern(dfs_hour).format(LocalDateTime.now());
+		String hour = DateTimeFormatter.ofPattern(dfs_hour).format(LocalDateTime.now().minusHours(1));
 
-		String hdfsFilePath = year + "/"+hour+"/";
+		String hdfsFilePath = "flume/nginx/"+year + "/"+hour+"/";
 
 		// 创建hbase&hive表
 		hbaseService.createTable(hbaseTableName, Constants.COLF);
@@ -76,9 +76,10 @@ public class EtlJob  extends BaseHadoop{
 		createHiveSql = createHiveSql.replace("^HBASETABLENAME^", hbaseTableName);
 		hiveJdbcService.createTable(createHiveSql);
 		
+		System.out.println("========"+hdfsFilePath);
 		//hdfs 目录下所有文件
-//		List<Map<String, String>> list = hdfsService.listFile(Constants.HDFS+"/"+hdfsFilePath);
-		List<Map<String, String>> list = hdfsService.listFile(Constants.HDFS+"/"+"flume/nginx/20191010/09/");
+		List<Map<String, String>> list = hdfsService.listFile(Constants.HDFS+"/"+hdfsFilePath);
+//		List<Map<String, String>> list = hdfsService.listFile(Constants.HDFS+"/"+"flume/nginx/20191010/09/");
 		Configuration conf = hbaseService.getConf();
 		Job job = Job.getInstance(conf, EtlJob.class.getName());
 		job.setJarByClass(EtlJob.class);
@@ -88,7 +89,9 @@ public class EtlJob  extends BaseHadoop{
 		TableMapReduceUtil.initTableReducerJob(hbaseTableName, null, job, null, null, null, null, false);
 		job.setNumReduceTasks(0);
 //		job.setReducerClass(MyReduce.class);
+		System.out.println("============================================================================");
 		for(Map<String, String> map :list) {
+			System.out.println(map.get("filePath"));
 			FileInputFormat.addInputPath(job,new Path(map.get("filePath")));
 		}
 		

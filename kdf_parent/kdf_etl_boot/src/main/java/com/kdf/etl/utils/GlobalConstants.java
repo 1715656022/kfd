@@ -17,5 +17,18 @@ public class GlobalConstants {
 	 * 默认值
 	 */
 	public static final String DEFAULT_VALUE = "unknown";
+	
+	
+	/**
+	 * 设备类型 pc
+	 */
+	public static final String DEVICE_TYPE_PC = "pc";
+	
+	/**
+	 * 设备类型 mobile
+	 */
+	public static final String DEVICE_TYPE_MOBILE = "mobile";
+
+
 
 }
