@@ -19,11 +19,11 @@ spring:
       show-sql: true
       database: mysql
    datasource:
-      url: jdbc:mysql://47.92.203.164:3306/pbkj_zhaohangmeishi_v2?useUnicode=true&characterEncoding=utf-8&serverTimezone=Hongkong
-      username: root
-      password: 3k@lis!pbph135789
+      url: jdbc:mysql://cdb-8ekiyygy.bj.tencentcdb.com:10058/kdf?useUnicode=true&characterEncoding=utf-8&serverTimezone=Hongkong
+      username: hivedb
+      password: hivedb
       driver-class-name: com.mysql.cj.jdbc.Driver
-kdf:
+kfd:
 #配置多个数据源(这里测试hive数据源)
    datasource:
       hive: #hive数据源
