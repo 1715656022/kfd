@@ -47,6 +47,8 @@ public class RequestHandler implements HandlerInterceptor {
     public static final String REQUEST_METHOD_KEY = "method";
 	public static final String USER_AGENT = "user_agent";
     public static final String REQUEST_TIME = "request_time";
+    public static final String APPID_KEY = "appid";
+    public static final String APPID_VALUE = "pbkj_123";
     
 //    public static final String NGINX_REQUEST_URL = "http://47.93.53.233:80";
     public static final String NGINX_REQUEST_URL = "";
@@ -140,6 +142,7 @@ public class RequestHandler implements HandlerInterceptor {
 		paraMap.put(REQUEST_METHOD_KEY, method);
 		paraMap.put(USER_AGENT, userAgent);
 		paraMap.put(REQUEST_TIME, requestTime);
+		paraMap.put(APPID_KEY, APPID_VALUE);
 		return paraMap;
 	}
 }
