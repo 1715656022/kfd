@@ -67,7 +67,7 @@ public class TestController2 extends BaseHadoop {
 	}
 	@GetMapping("/test2")
 	public void testHive() {
-		String  hiveSql = "select * from my_test_hive";
+		String  hiveSql = "select * from aapv_log_hive_2019_10_10_10";
 		
 //		hiveTemplate.executeScript(scripts);
 		Map maaaa = hiveTemplate.execute(new HiveClientCallback<Map>() {
@@ -82,9 +82,9 @@ public class TestController2 extends BaseHadoop {
 				ResultSet rs = stmt.executeQuery(hiveSql);
 				// 处理数据
 				while (rs.next()) {
-					String clientType = rs.getString("clientType");
-					System.out.println(clientType);
-					map.put("clientType", clientType);
+					String user_agent = rs.getString("user_agent");
+					System.out.println(user_agent);
+					map.put("user_agent", user_agent);
 					map.put("url", map.get("url"));
 				}
 				return map;
