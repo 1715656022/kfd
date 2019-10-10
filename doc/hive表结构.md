@@ -20,16 +20,23 @@ create 'pv_log_yyyy_mm_dd_HH','log';
 
 表名称：pv_log_hive_yyyy_mm_dd_HH
 
-| 字段名称     | 类型   | 备注                |
-| ------------ | ------ | ------------------- |
-| key          | string |                     |
-| appid        | string | 项目appid           |
-| user_agent   | string |                     |
-| method       | string |                     |
-| ip           | string |                     |
-| port         | string |                     |
-| url          | string |                     |
-| request_time | string | 请求时间 10位时间戳 |
+| 字段名称        | 类型   | 备注                |
+| --------------- | ------ | ------------------- |
+| key             | string |                     |
+| appid           | string | 项目appid           |
+| method          | string |                     |
+| ip              | string |                     |
+| port            | string |                     |
+| url             | string |                     |
+| country         | string | 国家                |
+| province        | string | 省                  |
+| city            | string | 市                  |
+| request_time    | string | 请求时间 10位时间戳 |
+| os_name         | string | 操作系统名称        |
+| os_version      | string | 操作系统版本号      |
+| browser_name    | string | 浏览器名称          |
+| browser_version | string | 浏览器版本          |
+| device_type     | string | moibie/pc           |
 
 ```sql
 CREATE EXTERNAL TABLE pv_log_hive 
@@ -47,7 +54,7 @@ TBLPROPERTIES ("hbase.table.name" = "pv_log");
 
 | 列名称       | 类型        | 备注        |
 | ------------ | ----------- | ----------- |
-| project_id   | bigint      | 主键自增    |
+| id           | bigint      | 主键自增    |
 | project_name | varchar(50) | 项目名称    |
 | appid        | varchar(50) |             |
 | project_url  | varchar(50) | 项目url路径 |
