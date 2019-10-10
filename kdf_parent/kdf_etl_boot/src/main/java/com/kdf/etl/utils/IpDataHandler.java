@@ -31,18 +31,13 @@ import com.kdf.etl.utils.IpResponse;
  */
 public class IpDataHandler {
 	
-	/**
-     * ip 地址库
-     */
-    public static String ipdatapath = "D:\\sts-4.3.2.RELEASE\\workspace\\kfd\\doc\\17monipdb.dat";
-    
     private static long fileLength = -1;
     private static int dataLength = -1;
     private static Map<String, String> cacheMap = null;
     private static byte[] allData = null;
 
     static {
-        File file = new File(ipdatapath);
+        File file = new File("src/main/resources/17monipdb.dat");
         DataInputStream inputStream = null;
         try {
             inputStream = new DataInputStream(new FileInputStream(file));
