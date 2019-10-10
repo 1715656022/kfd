@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdf.etl.service.HiveService;
+import com.kdf.etl.service.PvService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,14 +24,16 @@ import lombok.extern.slf4j.Slf4j;
 public class AllPvController {
 
 	@Autowired
-	private HiveService hiveService;
+	private PvService pvService;
 
 	@GetMapping()
 	public String start() throws Exception {
 		log.info("===============数据allpv执行开始==============\"");
 
-		long cntPv = hiveService.getAllPv();
-		System.out.println("===============" + cntPv);
+//		long cntPv = hiveService.getAllPv();
+//		System.out.println("===============" + cntPv);
+		
+//		pvService.getAllPv(yearMonthDayHour);
 		// insert db
 		log.info("===============数据allpv执行完成==============");
 

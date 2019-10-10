@@ -22,6 +22,6 @@ public class Common {
 	/**
 	 * createTime 创建时间
 	 */
-	private Date createTime;
+	private Date createTime = new Date();
 
 }
