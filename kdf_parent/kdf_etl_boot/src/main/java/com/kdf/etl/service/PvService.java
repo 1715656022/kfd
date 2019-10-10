@@ -3,6 +3,7 @@ package com.kdf.etl.service;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.kdf.etl.bean.PvAll;
 import com.kdf.etl.repository.PvAllRepository;
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  * 
  */
 @Slf4j
+@Service
 public class PvService {
 
 	@Autowired
