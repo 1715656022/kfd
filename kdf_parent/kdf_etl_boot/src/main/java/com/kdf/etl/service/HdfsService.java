@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -20,35 +17,17 @@ import org.apache.hadoop.fs.LocatedFileStatus;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.RemoteIterator;
 import org.apache.hadoop.io.IOUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kdf.etl.constant.Constants;
+
 @Component
-public class HdfsService {
-//	hdfs.path=hdfs://localhost:9000
-//		hdfs.username=root
+public class HdfsService extends BaseService {
 
-//	@Value("${hdfs.path}")
-	private String path = "hdfs://192.168.0.105:9000";
-//	@Value("${hdfs.username}")
 	private String username = "root";
-
-	private static String hdfsPath;
-	private static String hdfsName;
-	private static final int bufferSize = 1024 * 1024 * 64;
-
-	/**
-	 * 获取HDFS配置信息
-	 * 
-	 * @return
-	 */
-	private static Configuration getConfiguration() {
-		Configuration configuration = new Configuration();
-		configuration.set("fs.defaultFS", hdfsPath);
-		return configuration;
-	}
+	private final int bufferSize = 1024 * 1024 * 64;
 
 	/**
 	 * 获取HDFS文件系统对象
@@ -56,11 +35,11 @@ public class HdfsService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static FileSystem getFileSystem() throws Exception {
+	public FileSystem getFileSystem() throws Exception {
 		// 客户端去操作hdfs时是有一个用户身份的，默认情况下hdfs客户端api会从jvm中获取一个参数作为自己的用户身份
 		// DHADOOP_USER_NAME=hadoop
 		// 也可以在构造客户端fs对象时，通过参数传递进去
-		FileSystem fileSystem = FileSystem.get(new URI(hdfsPath), getConfiguration(), hdfsName);
+		FileSystem fileSystem = FileSystem.get(new URI(Constants.HDFS), getConf());
 		return fileSystem;
 	}
 
@@ -71,7 +50,7 @@ public class HdfsService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static boolean mkdir(String path) throws Exception {
+	public boolean mkdir(String path) throws Exception {
 		if (StringUtils.isEmpty(path)) {
 			return false;
 		}
@@ -93,7 +72,7 @@ public class HdfsService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static boolean existFile(String path) throws Exception {
+	public boolean existFile(String path) throws Exception {
 		if (StringUtils.isEmpty(path)) {
 			return false;
 		}
@@ -110,7 +89,7 @@ public class HdfsService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<Map<String, Object>> readPathInfo(String path) throws Exception {
+	public List<Map<String, Object>> readPathInfo(String path) throws Exception {
 		if (StringUtils.isEmpty(path)) {
 			return null;
 		}
@@ -142,7 +121,7 @@ public class HdfsService {
 	 * @param file
 	 * @throws Exception
 	 */
-	public static void createFile(String path, MultipartFile file) throws Exception {
+	public void createFile(String path, MultipartFile file) throws Exception {
 		if (StringUtils.isEmpty(path) || null == file.getBytes()) {
 			return;
 		}
@@ -164,7 +143,7 @@ public class HdfsService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String readFile(String path) throws Exception {
+	public String readFile(String path) throws Exception {
 		if (StringUtils.isEmpty(path)) {
 			return null;
 		}
@@ -198,7 +177,7 @@ public class HdfsService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<Map<String, String>> listFile(String path) throws Exception {
+	public List<Map<String, String>> listFile(String path) throws Exception {
 		if (StringUtils.isEmpty(path)) {
 			return null;
 		}
@@ -233,7 +212,7 @@ public class HdfsService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static boolean renameFile(String oldName, String newName) throws Exception {
+	public boolean renameFile(String oldName, String newName) throws Exception {
 		if (StringUtils.isEmpty(oldName) || StringUtils.isEmpty(newName)) {
 			return false;
 		}
@@ -254,7 +233,7 @@ public class HdfsService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static boolean deleteFile(String path) throws Exception {
+	public boolean deleteFile(String path) throws Exception {
 		if (StringUtils.isEmpty(path)) {
 			return false;
 		}
@@ -275,7 +254,7 @@ public class HdfsService {
 	 * @param uploadPath
 	 * @throws Exception
 	 */
-	public static void uploadFile(String path, String uploadPath) throws Exception {
+	public void uploadFile(String path, String uploadPath) throws Exception {
 		if (StringUtils.isEmpty(path) || StringUtils.isEmpty(uploadPath)) {
 			return;
 		}
@@ -297,7 +276,7 @@ public class HdfsService {
 	 * @param downloadPath
 	 * @throws Exception
 	 */
-	public static void downloadFile(String path, String downloadPath) throws Exception {
+	public void downloadFile(String path, String downloadPath) throws Exception {
 		if (StringUtils.isEmpty(path) || StringUtils.isEmpty(downloadPath)) {
 			return;
 		}
@@ -319,7 +298,7 @@ public class HdfsService {
 	 * @param targetPath
 	 * @throws Exception
 	 */
-	public static void copyFile(String sourcePath, String targetPath) throws Exception {
+	public void copyFile(String sourcePath, String targetPath) throws Exception {
 		if (StringUtils.isEmpty(sourcePath) || StringUtils.isEmpty(targetPath)) {
 			return;
 		}
@@ -393,7 +372,7 @@ public class HdfsService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static BlockLocation[] getFileBlockLocations(String path) throws Exception {
+	public BlockLocation[] getFileBlockLocations(String path) throws Exception {
 		if (StringUtils.isEmpty(path)) {
 			return null;
 		}
@@ -405,24 +384,6 @@ public class HdfsService {
 		Path srcPath = new Path(path);
 		FileStatus fileStatus = fs.getFileStatus(srcPath);
 		return fs.getFileBlockLocations(fileStatus, 0, fileStatus.getLen());
-	}
-
-	@PostConstruct
-	public void getPath() {
-		hdfsPath = this.path;
-	}
-
-	@PostConstruct
-	public void getName() {
-		hdfsName = this.username;
-	}
-
-	public static String getHdfsPath() {
-		return hdfsPath;
-	}
-
-	public String getUsername() {
-		return username;
 	}
 
 }

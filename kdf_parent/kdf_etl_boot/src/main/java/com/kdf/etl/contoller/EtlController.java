@@ -1,6 +1,8 @@
 package com.kdf.etl.contoller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -17,12 +19,14 @@ import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
 import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdf.etl.constant.Constants;
 import com.kdf.etl.hadoop.MyMapper;
+import com.kdf.etl.service.HdfsService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +40,22 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/rest")
 public class EtlController {
- 
+	
+	@Autowired
+	HdfsService hdfsService;
+	
+	@GetMapping("qq")
+	public String qq() throws Exception {
+		//hdfs 目录下所有文件
+		String hdfsFilePath = "/flume/webdata/";
+		List<Map<String, String>> list = hdfsService.listFile(Constants.HDFS+"/"+hdfsFilePath);
+		
+		System.out.println("==============================================");
+		System.out.println(list);
+		System.out.println("==============================================");
+		
+		return "ok";
+	}
 	@GetMapping("start")
 	public String start() throws Exception {
 		log.info("===============数据清洗执行开始==============\"");
@@ -111,13 +130,14 @@ public class EtlController {
 		FileSystem fs = null;
 		try {
 			fs = FileSystem.get(conf);
-			Path inputPath = new Path(Constants.HDFS+"/test.log");
+			Path inputPath = new Path(Constants.HDFS+"/flum/webdata/");
+			FileInputFormat.addInputPath(job, inputPath);
 
-			if (fs.exists(inputPath)) {
-				FileInputFormat.addInputPath(job, inputPath);
-			} else {
-				throw new RuntimeException("文件不存在:" + inputPath);
-			}
+//			if (fs.exists(inputPath)) {
+//				FileInputFormat.addInputPath(job, inputPath);
+//			} else {
+//				throw new RuntimeException("文件不存在:" + inputPath);
+//			}
 		} catch (IOException e) {
 			throw new RuntimeException("设置输入路径出现异常", e);
 		} finally {
