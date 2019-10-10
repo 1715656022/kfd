@@ -47,7 +47,8 @@ public class EtlJob  extends BaseHadoop{
 			"WITH SERDEPROPERTIES (\"hbase.columns.mapping\" = \":key,log:appid,log:user_agent,log:method,log:ip,log:port,log:url,log:request_time\")  \r\n" + 
 			"TBLPROPERTIES (\"hbase.table.name\" = \"^HBASETABLENAME^\")";
 	
-	@Scheduled(fixedRate = 100000)
+//	@Scheduled(fixedRate = 100000)
+	@Scheduled(cron = "0 0 */1 * * ?")
 	public void etl() throws Exception {
 		log.info("===============数据清洗执行开始==============\"");
 		String nowDate = DateTimeFormatter.ofPattern(dfs).format(LocalDateTime.now().minusHours(1));
