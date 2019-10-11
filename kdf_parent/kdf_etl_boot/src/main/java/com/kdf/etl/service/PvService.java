@@ -29,12 +29,12 @@ public class PvService {
 	private PvAllRepository pvAllRepository;
 
 	public void getAllPv(String yearMonthDayHour) {
-		log.info("===============数据allpv执行开始==============\"");
+		log.info("===============数据allpv执行开始==============");
 		Map<String, String> cntPv = hiveService.getAllPv(yearMonthDayHour);
 		// insert db
 		PvAll pvAll = new PvAll();
 		pvAll.setAppid(cntPv.get("appid"));
-		pvAll.setPvCount(Long.valueOf(cntPv.get("pcCnt")));
+		pvAll.setPvCount(Long.valueOf(cntPv.get("pv_count")));
 //		pvAll.setRequestTime(requestTime);
 		pvAllRepository.save(pvAll);
 		log.info("===============数据allpv执行完成==============" + cntPv);

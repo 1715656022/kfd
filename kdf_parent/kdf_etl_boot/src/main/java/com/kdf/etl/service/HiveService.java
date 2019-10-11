@@ -12,14 +12,19 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Maps;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class HiveService {
 
 	@Autowired
 	private HiveTemplate hiveTemplate;
 
 	public Map<String, String> getAllPv(String yearMonthDayHour) {
-		String hiveSql = "select count(*)  pv_count,appid from pv_log_hive_" + yearMonthDayHour + "group by appid ";
+		String hiveSql = "select count(*)  pv_count,appid from pv_log_hive_" + yearMonthDayHour + " group by appid ";
+		
+		log.debug("getAllPv sql={}",hiveSql);
 		Map<String, String> cnt = hiveTemplate.execute(new HiveClientCallback<Map<String, String>>() {
 			@Override
 			public Map<String, String> doInHive(HiveClient hiveClient) throws Exception {
