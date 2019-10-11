@@ -1,8 +1,11 @@
 package com.kdf.etl.contoller.pv;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdf.etl.service.HiveService;
@@ -25,6 +28,9 @@ public class AllPvController {
 
 	@Autowired
 	private PvService pvService;
+	
+	@Autowired
+	private HiveService hiveService;
 
 	@GetMapping()
 	public String start() throws Exception {
@@ -38,5 +44,14 @@ public class AllPvController {
 		log.info("===============数据allpv执行完成==============");
 
 		return "ok";
+	}
+	
+	@GetMapping("/pvByTime")
+	public Map pvByTime(@RequestParam("yearMonthDayHour") String yearMonthDayHour) {
+		log.info("===============数据pvByTime执行开始==============\"");
+		// List dataList = hiveService.getAllPvByTime();
+		Map dataMap = hiveService.getPvCountByYearMonthDayHour(yearMonthDayHour);
+		log.info("===============数据pvByTime执行完成==============");
+		return dataMap;
 	}
 }
