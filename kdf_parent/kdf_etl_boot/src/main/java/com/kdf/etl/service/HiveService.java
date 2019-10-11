@@ -44,38 +44,9 @@ public class HiveService {
 
 	}
 	
-	
-	public List getAllPvByTime() {
-		String  hiveSql = "select *,count(1) as pvCount from pv_log_hive group by request_time";
-		List resultList = hiveTemplate.execute(new HiveClientCallback<List>(){
-			@Override
-			public List doInHive(HiveClient hiveClient) throws Exception {
-				List dataList = Lists.newArrayList();
-				java.sql.Connection conn = hiveClient.getConnection();
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(hiveSql);
-				// 处理数据
-				while (rs.next()) {
-					Map map = Maps.newHashMap();
-//					String requestTime = rs.getString("request_time");
-					String url = rs.getString("url");
-					String pvCount = rs.getString("pvCount");
-//					map.put("requestTime", requestTime);
-					map.put("url", url);
-					map.put("pvCount", pvCount);
-					dataList.add(map);
-				}
-				return dataList;
-			}
-		});
-		System.out.println("111111111111111111111"+resultList);
-		
-		return resultList;
-	}
-	
-	public Map getPvCountByYearMonthDayHour(String yearMonthDayHour) {
+	public Map<String, String> getPvCountByYearMonthDayHour(String yearMonthDayHour) {
 		String  hiveSql = "select count(1) as pvCount from pv_log_hive_" + yearMonthDayHour;
-		Map resultMap = hiveTemplate.execute(new HiveClientCallback<Map>(){
+		Map<String, String> resultMap = hiveTemplate.execute(new HiveClientCallback<Map<String, String>>(){
 			@Override
 			public Map doInHive(HiveClient hiveClient) throws Exception {
 				Map<String, String> cntMap = Maps.newHashMap();
@@ -90,7 +61,6 @@ public class HiveService {
 				return cntMap;
 			}
 		});
-		
 		return resultMap;
 	}
 }
