@@ -17,9 +17,4 @@ public class PvAll extends Common {
 	 */
 	private Long pvCount;
 
-	/**
-	 * RequestTime 请求时间（yyyy-mm-dd HH:00:00）
-	 */
-	private Date requestTime;
-
 }

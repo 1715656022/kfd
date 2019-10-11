@@ -15,7 +15,7 @@ public class PvJob extends BaseHadoop {
 	@Autowired
 	private PvService pvService;
 
-	@Scheduled(fixedRate = 100000)
+	@Scheduled(fixedRate = 1000000)
 //	@Scheduled(cron = "0 0 */1 * * ?")
 	public void etl() throws Exception {
 		System.out.println("=======xxxxxxxxxxxxxxxxxx");
