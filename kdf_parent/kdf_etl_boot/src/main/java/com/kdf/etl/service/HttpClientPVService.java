@@ -12,9 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 
- * @ClassName: PvService
- * @Description: pv统计service
- * @author 王者の南が少ない 1715656022@qq.com
+ * @ClassName: HttpClientPVService
+ * @Description: 请求pv统计service
+ * @author 刘岩
  * @date 2019年10月10日 上午11:04:44
  * 
  */
