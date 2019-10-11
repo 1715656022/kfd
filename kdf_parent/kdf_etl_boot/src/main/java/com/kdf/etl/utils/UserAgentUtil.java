@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import cz.mallat.uasparser.OnlineUpdater;
 import cz.mallat.uasparser.UASparser;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 解析浏览器的user agent的工具类，内部就是调用这个uasparser jar文件
@@ -11,6 +12,7 @@ import cz.mallat.uasparser.UASparser;
  * @author root
  *
  */
+@Slf4j
 public class UserAgentUtil {
 	static UASparser uasParser = null;
 
@@ -27,8 +29,7 @@ public class UserAgentUtil {
 	 * 解析浏览器的user agent字符串，返回UserAgentInfo对象。<br/>
 	 * 如果user agent为空，返回null。如果解析失败，也直接返回null。
 	 * 
-	 * @param userAgent
-	 *            要解析的user agent字符串
+	 * @param userAgent 要解析的user agent字符串
 	 * @return 返回具体的值
 	 */
 	public static UserAgentInfo analyticUserAgent(String userAgent) {
@@ -38,9 +39,9 @@ public class UserAgentUtil {
 			try {
 				cz.mallat.uasparser.UserAgentInfo info = null;
 				info = uasParser.parse(userAgent);
-				System.out.println("================");
-				System.out.println(info);
-				System.out.println("================");
+				if (log.isDebugEnabled()) {
+					log.debug("userAgent info={}", info);
+				}
 				result = new UserAgentInfo();
 				result.setBrowserName(info.getUaFamily());
 				result.setBrowserVersion(info.getBrowserVersionInfo());
