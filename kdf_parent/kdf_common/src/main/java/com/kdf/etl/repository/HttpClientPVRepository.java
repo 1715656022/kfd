@@ -1,0 +1,13 @@
+package com.kdf.etl.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.kdf.etl.bean.PvHttpClient;
+
+@Repository
+public interface HttpClientPVRepository extends JpaRepository<PvHttpClient, Long> {
+
+	PvHttpClient findByIp(String ip);
+
+}
