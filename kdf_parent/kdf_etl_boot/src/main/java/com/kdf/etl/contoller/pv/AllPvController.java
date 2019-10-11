@@ -1,5 +1,6 @@
 package com.kdf.etl.contoller.pv;
 
+import java.text.ParseException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,6 @@ public class AllPvController {
 	@Autowired
 	private PvService pvService;
 	
-	@Autowired
-	private HiveService hiveService;
-
 	@GetMapping()
 	public String start() throws Exception {
 		log.info("===============数据allpv执行开始==============\"");
@@ -50,7 +48,13 @@ public class AllPvController {
 	public Map pvByTime(@RequestParam("yearMonthDayHour") String yearMonthDayHour) {
 		log.info("===============数据pvByTime执行开始==============\"");
 		// List dataList = hiveService.getAllPvByTime();
-		Map dataMap = hiveService.getPvCountByYearMonthDayHour(yearMonthDayHour);
+		Map dataMap = null;
+		try {
+			dataMap = pvService.getPvCountByYearMonthDayHour(yearMonthDayHour);
+		} catch (ParseException e) {
+			log.error("数据pvByTime执行异常");
+			e.printStackTrace();
+		}
 		log.info("===============数据pvByTime执行完成==============");
 		return dataMap;
 	}
