@@ -51,9 +51,7 @@ public class PvService {
 		// insert db
 		PvAll pvAll = new PvAll();
 		pvAll.setPvCount(Long.valueOf(cntPv.get("pvCount")));
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:00:00");
-		Date date = sdf.parse(yearMonthDayHour);
-		pvAll.setRequestTime(date);
+		pvAll.setRequestTime(DateUtils.strToDate(yearMonthDayHour));
 		pvAllRepository.save(pvAll);
 		return cntPv;
 	}
