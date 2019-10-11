@@ -44,6 +44,13 @@ public class AllPvController {
 		return "ok";
 	}
 	
+	/**
+	 * 
+	 * @Title: pvByTime   
+	 * @Description: 总pv时间分布图
+	 * @param yearMonthDayHour
+	 * @return: Map      
+	 */
 	@GetMapping("/pvByTime")
 	public Map pvByTime(@RequestParam("yearMonthDayHour") String yearMonthDayHour) {
 		log.info("===============数据pvByTime执行开始==============\"");
@@ -55,7 +62,7 @@ public class AllPvController {
 			log.error("数据pvByTime执行异常");
 			e.printStackTrace();
 		}
-		log.info("===============数据pvByTime执行完成==============");
+		log.info("===============数据pvByTime执行完成==============" + dataMap);
 		return dataMap;
 	}
 }

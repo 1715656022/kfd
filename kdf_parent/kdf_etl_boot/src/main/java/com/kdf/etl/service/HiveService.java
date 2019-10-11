@@ -53,6 +53,7 @@ public class HiveService {
 
 	public Map<String, String> getPvCountByYearMonthDayHour(String yearMonthDayHour) {
 		String hiveSql = "select count(1) as pvCount from pv_log_hive_" + yearMonthDayHour;
+		log.info("sql={}" + hiveSql);
 		Map<String, String> resultMap = hiveTemplate.execute(new HiveClientCallback<Map<String, String>>() {
 			@Override
 			public Map doInHive(HiveClient hiveClient) throws Exception {
