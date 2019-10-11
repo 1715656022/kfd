@@ -2,6 +2,7 @@ package com.kdf.etl.service;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.data.hadoop.hive.HiveClientCallback;
 import org.springframework.data.hadoop.hive.HiveTemplate;
 import org.springframework.stereotype.Service;
 
+import com.beust.jcommander.internal.Lists;
 import com.google.common.collect.Maps;
 
 @Service
@@ -40,5 +42,55 @@ public class HiveService {
 		});
 		return cnt;
 
+	}
+	
+	
+	public List getAllPvByTime() {
+		String  hiveSql = "select *,count(1) as pvCount from pv_log_hive group by request_time";
+		List resultList = hiveTemplate.execute(new HiveClientCallback<List>(){
+			@Override
+			public List doInHive(HiveClient hiveClient) throws Exception {
+				List dataList = Lists.newArrayList();
+				java.sql.Connection conn = hiveClient.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(hiveSql);
+				// 处理数据
+				while (rs.next()) {
+					Map map = Maps.newHashMap();
+//					String requestTime = rs.getString("request_time");
+					String url = rs.getString("url");
+					String pvCount = rs.getString("pvCount");
+//					map.put("requestTime", requestTime);
+					map.put("url", url);
+					map.put("pvCount", pvCount);
+					dataList.add(map);
+				}
+				return dataList;
+			}
+		});
+		System.out.println("111111111111111111111"+resultList);
+		
+		return resultList;
+	}
+	
+	public Map getPvCountByYearMonthDayHour(String yearMonthDayHour) {
+		String  hiveSql = "select count(1) as pvCount from pv_log_hive_" + yearMonthDayHour;
+		Map resultMap = hiveTemplate.execute(new HiveClientCallback<Map>(){
+			@Override
+			public Map doInHive(HiveClient hiveClient) throws Exception {
+				Map<String, String> cntMap = Maps.newHashMap();
+				java.sql.Connection conn = hiveClient.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(hiveSql);
+				while (rs.next()) {
+					String pvCount = rs.getString("pvCount");
+					cntMap.put("pvCount", pvCount);
+					cntMap.put("yearMonthDayHour", yearMonthDayHour);
+				}
+				return cntMap;
+			}
+		});
+		
+		return resultMap;
 	}
 }
