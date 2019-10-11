@@ -49,7 +49,7 @@ public class UvService {
 				uvBrowser.setBrowserName(browserName);
 				uvBrowser.setUvCount(count);
 				uvBrowser.setAppid(appid);
-				uvBrowser.setRequestTime(DateUtils.StrToDate(yearMonthDayHour));
+				uvBrowser.setRequestTime(DateUtils.strToDate(yearMonthDayHour));
 				uvBrowerRepository.save(uvBrowser);
 			});
 		}
