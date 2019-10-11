@@ -38,7 +38,7 @@ public class UvService {
 	 * @param yearMonthDayHour
 	 * @throws:
 	 */
-	public void browserUv2MySql(String yearMonthDayHour) {
+	public void browserUv2Mysql(String yearMonthDayHour) {
 		List<Map<String, String>> uvList = uvHiveService.getBrowserUv(yearMonthDayHour);
 		if(CollectionUtils.isNotEmpty(uvList)) {
 			uvList.stream().forEach(map -> {
