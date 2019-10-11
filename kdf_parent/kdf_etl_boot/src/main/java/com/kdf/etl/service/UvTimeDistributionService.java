@@ -53,20 +53,20 @@ public class UvTimeDistributionService {
 
 		UvTimeDistribution uvTimeDistribution = new UvTimeDistribution();
 		uvTimeDistribution.setUvCount(Long.valueOf(String.valueOf(map.get("uvCount"))));
-		uvTimeDistribution.setRequestTime(DateUtils.StrToDate(map.get("yearMonthDayHour")));
+		uvTimeDistribution.setRequestTime(DateUtils.strToDate(map.get("yearMonthDayHour")));
 		uvTimeDistributionRepository.save(uvTimeDistribution);
 
 		log.info("end->getUvTimeDistribution");
 	}
 
 	public UvTimeDistribution getUvTimeDistribution(String yearMonthDayHour) {
-		return uvTimeDistributionRepository.findByRequestTime(DateUtils.StrToDate(yearMonthDayHour));
+		return uvTimeDistributionRepository.findByRequestTime(DateUtils.strToDate(yearMonthDayHour));
 	}
 
 	public List<UvTimeDistribution> getAreaUvTimeDistribution(String startYearMonthDayHour,
 			String endYearMonthDayHour) {
-		return uvTimeDistributionRepository.findByRequestTimeBetween(DateUtils.StrToDate(startYearMonthDayHour),
-				DateUtils.StrToDate(endYearMonthDayHour));
+		return uvTimeDistributionRepository.findByRequestTimeBetween(DateUtils.strToDate(startYearMonthDayHour),
+				DateUtils.strToDate(endYearMonthDayHour));
 	}
 
 }
