@@ -12,6 +12,7 @@ import org.springframework.data.hadoop.hive.HiveClientCallback;
 import org.springframework.data.hadoop.hive.HiveTemplate;
 import org.springframework.stereotype.Service;
 
+import com.beust.jcommander.internal.Lists;
 import com.google.common.collect.Maps;
 import com.kdf.etl.bean.UvTimeDistribution;
 import com.kdf.etl.repository.UvTimeDistributionRepository;
@@ -32,29 +33,37 @@ public class UvTimeDistributionService {
 	public void saveUvTimeDistribution(String yearMonthDayHour) {
 		log.info("star->getUvTimeDistribution:yearMonthDayHour={}", yearMonthDayHour);
 
-		String sql = "select count(1) as uvCount from pv_log_hive_" + yearMonthDayHour + " group by ip";
+		String sql = "select count(1) as uvCount, appid from pv_log_hive_" + yearMonthDayHour + " group by ip, appid";
 		log.info("sql={}", sql);
 
-		Map<String, Object> map = hiveTemplate.execute(new HiveClientCallback<Map<String, Object>>() {
+		List<Map<String, String>> list = hiveTemplate.execute(new HiveClientCallback<List<Map<String, String>>>() {
 			@Override
-			public Map<String, Object> doInHive(HiveClient hiveClient) throws Exception {
-				Map<String, Object> map = Maps.newHashMap();
+			public List<Map<String, String>> doInHive(HiveClient hiveClient) throws Exception {
+				List<Map<String, String>> list = Lists.newArrayList();
 
 				Connection conn = hiveClient.getConnection();
 				Statement stmt = conn.createStatement();
 				ResultSet rs = stmt.executeQuery(sql);
+
+				Map<String, String> map = Maps.newHashMap();
 				while (rs.next()) {
+					map.keySet().removeIf(key -> key != "1");
+
+					map.put("appid", rs.getString("appid"));
 					map.put("uvCount", rs.getString("uvCount"));
-					map.put("yearMonthDayHour", yearMonthDayHour);
+					list.add(map);
 				}
-				return map;
+				return list;
 			}
 		});
 
-		UvTimeDistribution uvTimeDistribution = new UvTimeDistribution();
-		uvTimeDistribution.setUvCount(Long.valueOf(String.valueOf(map.get("uvCount"))));
-		uvTimeDistribution.setRequestTime(DateUtils.strToDate(map.get("yearMonthDayHour")));
-		uvTimeDistributionRepository.save(uvTimeDistribution);
+		list.forEach(m -> {
+			UvTimeDistribution uvTimeDistribution = new UvTimeDistribution();
+			uvTimeDistribution.setAppid(m.get("appid"));
+			uvTimeDistribution.setUvCount(Long.valueOf(m.get("uvCount")));
+			uvTimeDistribution.setRequestTime(DateUtils.strToDate(yearMonthDayHour));
+			uvTimeDistributionRepository.save(uvTimeDistribution);
+		});
 
 		log.info("end->getUvTimeDistribution");
 	}

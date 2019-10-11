@@ -17,11 +17,11 @@ public class DateUtils {
 	 * @param yearMonthDayHour yy_MM_dd_HH格式
 	 * @return
 	 */
-	public static Date strToDate(Object yearMonthDayHour) {
+	public static Date strToDate(String yearMonthDayHour) {
 		Date d;
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yy_MM_dd_HH");
-			d = sdf.parse((String) yearMonthDayHour);
+			d = sdf.parse(yearMonthDayHour);
 		} catch (Exception e) {
 			d = null;
 			e.printStackTrace();

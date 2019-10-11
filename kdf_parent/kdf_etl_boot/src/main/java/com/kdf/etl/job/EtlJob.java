@@ -56,7 +56,7 @@ public class EtlJob extends BaseHadoop {
 			+ "TBLPROPERTIES (\"hbase.table.name\" = \"^HBASETABLENAME^\")";
 
 //	@Scheduled(fixedRate = 100000)
-	@Scheduled(cron = "0 0 */1 * * ?")
+//	@Scheduled(cron = "0 0 */1 * * ?")
 	public void etl() throws Exception {
 		log.info("===============数据清洗执行开始=============");
 		LocalDateTime ldtOne = LocalDateTime.now().minusHours(1);
