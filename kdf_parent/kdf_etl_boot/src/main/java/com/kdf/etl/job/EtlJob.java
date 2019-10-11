@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.client.Put;
@@ -35,84 +36,80 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
-public class EtlJob  extends BaseHadoop{
-	
+public class EtlJob extends BaseHadoop {
+
 	@Autowired
 	private HdfsService hdfsService;
 	@Autowired
 	private HbaseService hbaseService;
-	
+
 	@Autowired
 	private HiveJdbcService hiveJdbcService;
 
 	static String dfs = "yyyy_MM_dd_HH";
 	static String dfs_year = "yyyyMMdd";
 	static String dfs_hour = "HH";
-	
-	String sqlTemplet = "CREATE EXTERNAL TABLE ^HIVETABLENAME^ \r\n" + 
-			"(key string,appid string,  method string,ip string,port string,url string,request_time string,country string,province string,city string,os_name string,os_version string,browser_name string,browser_version string,device_type string)  \r\n" + 
-			"STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'  \r\n" + 
-			"WITH SERDEPROPERTIES (\"hbase.columns.mapping\" = \":key,log:appid,log:method,log:ip,log:port,log:url,log:request_time,log:country,log:province,log:city,log:os_name,log:os_version,log:browser_name,log:browser_version,log:device_type\")  \r\n" + 
-			"TBLPROPERTIES (\"hbase.table.name\" = \"^HBASETABLENAME^\")";
-	
+
+	String sqlTemplet = "CREATE EXTERNAL TABLE ^HIVETABLENAME^ \r\n"
+			+ "(key string,appid string,  method string,ip string,port string,url string,request_time string,country string,province string,city string,os_name string,os_version string,browser_name string,browser_version string,device_type string)  \r\n"
+			+ "STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'  \r\n"
+			+ "WITH SERDEPROPERTIES (\"hbase.columns.mapping\" = \":key,log:appid,log:method,log:ip,log:port,log:url,log:request_time,log:country,log:province,log:city,log:os_name,log:os_version,log:browser_name,log:browser_version,log:device_type\")  \r\n"
+			+ "TBLPROPERTIES (\"hbase.table.name\" = \"^HBASETABLENAME^\")";
+
 	@Scheduled(fixedRate = 100000)
 //	@Scheduled(cron = "0 0 */1 * * ?")
 	public void etl() throws Exception {
-		log.info("===============数据清洗执行开始==============\"");
-		String nowDate = DateTimeFormatter.ofPattern(dfs).format(LocalDateTime.now().minusHours(1));
+		log.info("===============数据清洗执行开始=============");
+		LocalDateTime ldtOne = LocalDateTime.now().minusHours(1);
+		String nowDate = DateTimeFormatter.ofPattern(dfs).format(ldtOne);
 		String hbaseTableName = Constants.TABLENAME + nowDate;
-		String hiveTableName = Constants.TABLENAME +"hive_"+ nowDate;
-		
-		
-		String year = DateTimeFormatter.ofPattern(dfs_year).format(LocalDateTime.now().minusHours(1));
-		
-		String hour = DateTimeFormatter.ofPattern(dfs_hour).format(LocalDateTime.now().minusHours(1));
+		String hiveTableName = Constants.TABLENAME + "hive_" + nowDate;
 
-		String hdfsFilePath = "flume/nginx/"+year + "/"+hour+"/";
+		String year = DateTimeFormatter.ofPattern(dfs_year).format(ldtOne);
+		String hour = DateTimeFormatter.ofPattern(dfs_hour).format(ldtOne);
 
+		String hdfsFilePath = "flume/nginx/" + year + "/" + hour + "/";
 		// 创建hbase&hive表
 		hbaseService.createTable(hbaseTableName, Constants.COLF);
 		String createHiveSql = sqlTemplet.replace("^HIVETABLENAME^", hiveTableName);
 		createHiveSql = createHiveSql.replace("^HBASETABLENAME^", hbaseTableName);
 		hiveJdbcService.createTable(createHiveSql);
-		
-		System.out.println("========"+hdfsFilePath);
-		//hdfs 目录下所有文件
-		List<Map<String, String>> list = hdfsService.listFile(Constants.HDFS+"/"+hdfsFilePath);
-//		List<Map<String, String>> list = hdfsService.listFile(Constants.HDFS+"/"+"flume/nginx/20191010/09/");
-		Configuration conf = hbaseService.getConf();
-		Job job = Job.getInstance(conf, EtlJob.class.getName());
-		job.setJarByClass(EtlJob.class);
-		job.setMapperClass(MyMapper.class);
-		job.setMapOutputKeyClass(NullWritable.class);
-		job.setMapOutputValueClass(Put.class);
-		TableMapReduceUtil.initTableReducerJob(hbaseTableName, null, job, null, null, null, null, false);
-		job.setNumReduceTasks(0);
-//		job.setReducerClass(MyReduce.class);
-		System.out.println("============================================================================");
-		for(Map<String, String> map :list) {
-			System.out.println(map.get("filePath"));
-			FileInputFormat.addInputPath(job,new Path(map.get("filePath")));
-		}
-		
-		job.waitForCompletion(true);
-		log.info("===============数据清洗执行完成==============");
 
+		System.out.println("========" + hdfsFilePath);
+		// hdfs 目录下所有文件
+		List<Map<String, String>> list = hdfsService.listFile(Constants.HDFS + "/" + hdfsFilePath);
+//		List<Map<String, String>> list = hdfsService.listFile(Constants.HDFS+"/"+"flume/nginx/20191010/09/");
+
+		if (CollectionUtils.isNotEmpty(list)) {
+			Configuration conf = hbaseService.getConf();
+			Job job = Job.getInstance(conf, EtlJob.class.getName());
+			job.setJarByClass(EtlJob.class);
+			job.setMapperClass(MyMapper.class);
+			job.setMapOutputKeyClass(NullWritable.class);
+			job.setMapOutputValueClass(Put.class);
+			TableMapReduceUtil.initTableReducerJob(hbaseTableName, null, job, null, null, null, null, false);
+			job.setNumReduceTasks(0);
+			for (Map<String, String> map : list) {
+				log.debug("hdfs for nginx path {}", map.get("filePath"));
+				FileInputFormat.addInputPath(job, new Path(map.get("filePath")));
+			}
+			job.waitForCompletion(true);
+		}
+		log.info("===============数据清洗执行完成==============");
 	}
 
 	public static void main(String[] args) {
 
 		String nowDate = DateTimeFormatter.ofPattern(dfs).format(LocalDateTime.now().minusHours(1));
 		String hbaseTableName = Constants.TABLENAME + nowDate;
-		
+
 		String year = DateTimeFormatter.ofPattern(dfs_year).format(LocalDateTime.now());
-		
+
 		String hour = DateTimeFormatter.ofPattern(dfs_hour).format(LocalDateTime.now());
 		System.out.println(nowDate);
 		System.out.println(hbaseTableName);
 		System.out.println(year);
 		System.out.println(hour);
 	}
-
 
 }
