@@ -2,7 +2,6 @@ package com.kdf.etl.service;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.data.hadoop.hive.HiveClientCallback;
 import org.springframework.data.hadoop.hive.HiveTemplate;
 import org.springframework.stereotype.Service;
 
-import com.beust.jcommander.internal.Lists;
 import com.google.common.collect.Maps;
 
 import lombok.extern.slf4j.Slf4j;
