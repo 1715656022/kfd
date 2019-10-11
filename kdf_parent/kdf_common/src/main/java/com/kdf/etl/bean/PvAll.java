@@ -13,11 +13,6 @@ import lombok.Data;
 public class PvAll extends Common {
 
 	/**
-	 * appid APPID
-	 */
-	private String appid;
-
-	/**
 	 * pv总数
 	 */
 	private Long pvCount;
