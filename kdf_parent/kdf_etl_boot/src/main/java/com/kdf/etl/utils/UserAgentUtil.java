@@ -41,7 +41,7 @@ public class UserAgentUtil {
 				info = uasParser.parse(userAgent);
 				if (log.isDebugEnabled()) {
 					log.debug("userAgent info={}", info);
-				}
+				} 
 				result = new UserAgentInfo();
 				result.setBrowserName(info.getUaFamily());
 				result.setBrowserVersion(info.getBrowserVersionInfo());
