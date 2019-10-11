@@ -90,7 +90,9 @@ public class EtlJob extends BaseHadoop {
 			TableMapReduceUtil.initTableReducerJob(hbaseTableName, null, job, null, null, null, null, false);
 			job.setNumReduceTasks(0);
 			for (Map<String, String> map : list) {
-				log.debug("hdfs for nginx path {}", map.get("filePath"));
+				if (log.isDebugEnabled()) {
+					log.debug("hdfs for nginx path {}", map.get("filePath"));
+				}
 				FileInputFormat.addInputPath(job, new Path(map.get("filePath")));
 			}
 			job.waitForCompletion(true);
