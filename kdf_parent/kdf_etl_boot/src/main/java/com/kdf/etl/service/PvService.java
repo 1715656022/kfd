@@ -1,5 +1,9 @@
 package com.kdf.etl.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.kdf.etl.bean.PvAll;
 import com.kdf.etl.repository.PvAllRepository;
+import com.kdf.etl.utils.DateUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,15 +34,26 @@ public class PvService {
 	private PvAllRepository pvAllRepository;
 
 	public void getAllPv(String yearMonthDayHour) {
-		log.info("===============数据allpv执行开始==============\"");
-		Map<String, String> cntPv = hiveService.getAllPv(yearMonthDayHour);
+		log.info("===============数据allpv执行开始==============");
+		List<Map<String, String>> list = hiveService.getAllPv(yearMonthDayHour);
+		list.forEach(map -> {
+			PvAll pvAll = new PvAll();
+			pvAll.setAppid(map.get("appid"));
+			pvAll.setPvCount(Long.valueOf(map.get("pvCount")));
+			pvAll.setRequestTime(DateUtils.strToDate(yearMonthDayHour));
+			pvAllRepository.save(pvAll);
+		});
+		log.info("===============数据allpv执行完成==============" + list);
+	}
+
+	public Map<String, String> getPvCountByYearMonthDayHour(String yearMonthDayHour) throws ParseException {
+		Map<String, String> cntPv = hiveService.getPvCountByYearMonthDayHour(yearMonthDayHour);
 		// insert db
 		PvAll pvAll = new PvAll();
-		pvAll.setAppid(cntPv.get("appid"));
-		pvAll.setPvCount(Long.valueOf(cntPv.get("pcCnt")));
-//		pvAll.setRequestTime(requestTime);
+		pvAll.setPvCount(Long.valueOf(cntPv.get("pvCount")));
+		pvAll.setRequestTime(DateUtils.strToDate(yearMonthDayHour));
 		pvAllRepository.save(pvAll);
-		log.info("===============数据allpv执行完成==============" + cntPv);
+		return cntPv;
 	}
 
 }

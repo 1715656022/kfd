@@ -86,3 +86,48 @@ TBLPROPERTIES ("hbase.table.name" = "pv_log");
 | create_time  | datetime    | 创建时间            |
 | request_time | datetime    | yyyy-mm-dd HH:00:00 |
 
+
+
+
+
+### UV统计类表
+
+#### 浏览器UV统计表
+
+表名：kfd_uv_browser
+
+| 列名称       | 类型        | 注释                |
+| ------------ | ----------- | ------------------- |
+| id           | bigint      | 主键                |
+| appid        | varchar(50) | 项目appid           |
+| create_time  | datatime    | 创建时间            |
+| request_time | datetime    | yyyy-mm-dd HH:00:00 |
+| browser_name | varchar(50) | 浏览器名称          |
+| uv_count     | bigint      | 浏览器UV数量        |
+
+#### 操作系统UV统计表
+
+表名：kfd_uv_os
+
+| 列名称       | 类型        | 注释                |
+| ------------ | ----------- | ------------------- |
+| id           | bigint      | 主键                |
+| appid        | varchar(50) | 项目appid           |
+| create_time  | datatime    | 创建时间            |
+| request_time | datetime    | yyyy-mm-dd HH:00:00 |
+| os_name      | varchar(50) | 操作系统+版本       |
+| uv_count     | bigint      | 操作系统uv数量      |
+
+#### 客户端类型UV统计表
+
+表名：kfd_uv_client_type
+
+| 列名称          | 类型        | 注释                |
+| --------------- | ----------- | ------------------- |
+| id              | bigint      | 主键                |
+| appid           | varchar(50) | 项目appid           |
+| create_time     | datatime    | 创建时间            |
+| request_time    | datetime    | yyyy-mm-dd HH:00:00 |
+| mobile_uv_count | bigint      | 移动端uv数量        |
+| pc_uv_count     | bigint      | pc端uv数量          |
+

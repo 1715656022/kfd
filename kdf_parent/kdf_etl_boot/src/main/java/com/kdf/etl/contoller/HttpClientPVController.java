@@ -18,13 +18,9 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
-import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.hadoop.hbase.HbaseSynchronizationManager;
 import org.springframework.data.hadoop.hive.HiveClient;
 import org.springframework.data.hadoop.hive.HiveClientCallback;
 import org.springframework.data.hadoop.hive.HiveTemplate;
@@ -32,11 +28,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.beust.jcommander.internal.Maps;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.kdf.etl.base.BaseHadoop;
 import com.kdf.etl.bean.PvHttpClient;
-import com.kdf.etl.hadoop.MyMapper;
 import com.kdf.etl.service.HttpClientPVService;
 
 import lombok.extern.slf4j.Slf4j;

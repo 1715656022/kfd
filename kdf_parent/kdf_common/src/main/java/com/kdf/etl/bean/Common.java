@@ -2,10 +2,10 @@ package com.kdf.etl.bean;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 import lombok.Data;
 
@@ -17,19 +17,29 @@ import lombok.Data;
  *
  */
 @Data
-@Entity
+@MappedSuperclass
 public class Common {
 
 	/**
-	 * id 主键
+	 * id ID
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	/**
+	 * appid APPID
+	 */
+	private String appid;
+
+	/**
 	 * createTime 创建时间
 	 */
 	private Date createTime = new Date();
+
+	/**
+	 * requestTime 请求时间（yyyy-mm-dd HH:00:00）
+	 */
+	private Date requestTime;
 
 }

@@ -12,8 +12,6 @@
 
 
 	<dependencies>
-
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -24,8 +22,7 @@
 			<groupId>cz.mallat.uasparser</groupId>
 			<artifactId>uasparser</artifactId>
 		</dependency>
-
-
+		
 		<dependency>
 			<groupId>jdk.tools</groupId>
 			<artifactId>jdk.tools</artifactId>
@@ -60,28 +57,13 @@
 			<version>2.5.0.RELEASE</version>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.apache.hive</groupId>
 			<artifactId>hive-jdbc</artifactId>
 			<version>2.1.0</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.apache.sqoop/sqoop-client -->
-		<dependency>
-			<groupId>org.apache.sqoop</groupId>
-			<artifactId>sqoop-client</artifactId>
-			<version>1.99.7</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.sqoop</groupId>
-			<artifactId>sqoop-common</artifactId>
-			<version>1.99.7</version>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
-
 		<dependency>
 			<groupId>com.google.protobuf</groupId>
 			<artifactId>protobuf-java</artifactId>
@@ -109,8 +91,9 @@
 			<artifactId>kdf_common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
 	</dependencies>
-	
+	 
 	<build>
 		<plugins>
 			<plugin>

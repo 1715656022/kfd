@@ -1,8 +1,12 @@
 package com.kdf.etl.contoller.pv;
 
+import java.text.ParseException;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kdf.etl.service.HiveService;
@@ -25,7 +29,7 @@ public class AllPvController {
 
 	@Autowired
 	private PvService pvService;
-
+	
 	@GetMapping()
 	public String start() throws Exception {
 		log.info("===============数据allpv执行开始==============\"");
@@ -38,5 +42,27 @@ public class AllPvController {
 		log.info("===============数据allpv执行完成==============");
 
 		return "ok";
+	}
+	
+	/**
+	 * 
+	 * @Title: pvByTime   
+	 * @Description: 总pv时间分布图
+	 * @param yearMonthDayHour
+	 * @return: Map      
+	 */
+	@GetMapping("/pvByTime")
+	public Map pvByTime(@RequestParam("yearMonthDayHour") String yearMonthDayHour) {
+		log.info("===============数据pvByTime执行开始==============\"");
+		// List dataList = hiveService.getAllPvByTime();
+		Map dataMap = null;
+		try {
+			dataMap = pvService.getPvCountByYearMonthDayHour(yearMonthDayHour);
+		} catch (ParseException e) {
+			log.error("数据pvByTime执行异常");
+			e.printStackTrace();
+		}
+		log.info("===============数据pvByTime执行完成==============" + dataMap);
+		return dataMap;
 	}
 }

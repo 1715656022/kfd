@@ -46,8 +46,7 @@ public class EtlJob extends BaseHadoop {
 	@Autowired
 	private HiveJdbcService hiveJdbcService;
 
-	static String dfs = "yyyy_MM_dd_HH";
-	static String dfs_year = "yyyyMMdd";
+	static String dfs_year_month = "yyyyMMdd";
 	static String dfs_hour = "HH";
 
 	String sqlTemplet = "CREATE EXTERNAL TABLE ^HIVETABLENAME^ \r\n"
@@ -57,15 +56,16 @@ public class EtlJob extends BaseHadoop {
 			+ "TBLPROPERTIES (\"hbase.table.name\" = \"^HBASETABLENAME^\")";
 
 //	@Scheduled(fixedRate = 100000)
-	@Scheduled(cron = "0 0 */1 * * ?")
+//	@Scheduled(cron = "0 0 */1 * * ?")
 	public void etl() throws Exception {
 		log.info("===============数据清洗执行开始=============");
 		LocalDateTime ldtOne = LocalDateTime.now().minusHours(1);
-		String nowDate = DateTimeFormatter.ofPattern(dfs).format(ldtOne);
+
+		String nowDate = super.getYyyyMmDdHh();
 		String hbaseTableName = Constants.TABLENAME + nowDate;
 		String hiveTableName = Constants.TABLENAME + "hive_" + nowDate;
 
-		String year = DateTimeFormatter.ofPattern(dfs_year).format(ldtOne);
+		String year = DateTimeFormatter.ofPattern(dfs_year_month).format(ldtOne);
 		String hour = DateTimeFormatter.ofPattern(dfs_hour).format(ldtOne);
 
 		String hdfsFilePath = "flume/nginx/" + year + "/" + hour + "/";
@@ -98,20 +98,6 @@ public class EtlJob extends BaseHadoop {
 			job.waitForCompletion(true);
 		}
 		log.info("===============数据清洗执行完成==============");
-	}
-
-	public static void main(String[] args) {
-
-		String nowDate = DateTimeFormatter.ofPattern(dfs).format(LocalDateTime.now().minusHours(1));
-		String hbaseTableName = Constants.TABLENAME + nowDate;
-
-		String year = DateTimeFormatter.ofPattern(dfs_year).format(LocalDateTime.now());
-
-		String hour = DateTimeFormatter.ofPattern(dfs_hour).format(LocalDateTime.now());
-		System.out.println(nowDate);
-		System.out.println(hbaseTableName);
-		System.out.println(year);
-		System.out.println(hour);
 	}
 
 }
