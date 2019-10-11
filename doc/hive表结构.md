@@ -39,6 +39,7 @@ create 'pv_log_yyyy_mm_dd_HH','log';
 | device_type     | string | moibie/pc           |
 
 ```sql
+-- 已经过时
 CREATE EXTERNAL TABLE pv_log_hive 
 (key string, user_agent string, method string,ip string,port string,url string,request_time string)  
 STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'  
@@ -46,9 +47,9 @@ WITH SERDEPROPERTIES ("hbase.columns.mapping" = ":key,log:user_agent,log:method,
 TBLPROPERTIES ("hbase.table.name" = "pv_log");
 ```
 
-### mysql 表设计
+## mysql 表设计
 
-#### 项目表
+### 项目表
 
 表名称：kfd_project
 
@@ -60,7 +61,7 @@ TBLPROPERTIES ("hbase.table.name" = "pv_log");
 | project_url  | varchar(50) | 项目url路径 |
 | create_time  | datetime    | 创建时间    |
 
-#### 用户项目关联表
+### 用户项目关联表
 
 表名称：kfd_user_project_relation
 
@@ -71,9 +72,11 @@ TBLPROPERTIES ("hbase.table.name" = "pv_log");
 | project_id  | bigint   | 项目id   |
 | create_time | datetime | 创建时间 |
 
-#### PV统计类表
+### PV统计类表
 
-##### 项目pv总统计表
+#### 项目pv总统计表
+
+表名称：kfd_pv_all
 
 | 列名称       | 类型        | 备注                |
 | ------------ | ----------- | ------------------- |
