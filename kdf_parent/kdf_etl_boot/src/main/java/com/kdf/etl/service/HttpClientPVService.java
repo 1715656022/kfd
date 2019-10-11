@@ -34,7 +34,7 @@ public class HttpClientPVService {
 	 */
 	public void save(PvHttpClient pvHttpClient) {
 		log.info("===============数据pvHttpClient执行开始==============\"");
-		PvHttpClient bean = httpClientPVRepository.findByIp(pvHttpClient.getIp());
+		PvHttpClient bean = httpClientPVRepository.findByMethod(pvHttpClient.getMethod());
 		if (Objects.nonNull(bean)) {
 			pvHttpClient.setPvCount(bean.getPvCount()+one);
 			httpClientPVRepository.save(bean);

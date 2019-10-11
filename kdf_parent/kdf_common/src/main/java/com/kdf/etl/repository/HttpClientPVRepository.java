@@ -8,6 +8,6 @@ import com.kdf.etl.bean.PvHttpClient;
 @Repository
 public interface HttpClientPVRepository extends JpaRepository<PvHttpClient, Long> {
 
-	PvHttpClient findByIp(String ip);
+	PvHttpClient findByMethod(String method);
 
 }
