@@ -30,7 +30,7 @@ public class PvHttpClient {
 	/**
 	 * ip
 	 */
-	private String ip;
+	private String appid;
 
 	/**
 	 * pv总数
