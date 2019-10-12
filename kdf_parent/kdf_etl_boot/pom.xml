@@ -8,7 +8,15 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>kdf_etl_boot</artifactId>
-
+	
+	<properties>
+		<java.version>1.8</java.version>
+		<docker.registryServerId>230-5000</docker.registryServerId>
+		<docker.registryHost>http://192.168.31.37:12375</docker.registryHost>
+		<docker.registryUrl>http://${docker.registryHost}/</docker.registryUrl>
+		<imageVersion>1.8</imageVersion>
+		<docker.image.prefix>mytest</docker.image.prefix>
+	</properties>
 
 
 	<dependencies>
@@ -22,7 +30,7 @@
 			<groupId>cz.mallat.uasparser</groupId>
 			<artifactId>uasparser</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>jdk.tools</groupId>
 			<artifactId>jdk.tools</artifactId>
@@ -91,9 +99,9 @@
 			<artifactId>kdf_common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 	</dependencies>
-	 
+
 	<build>
 		<plugins>
 			<plugin>
@@ -103,6 +111,32 @@
 					<mainClass>com.kdf.etl.SpringKdfEtlBootApplication</mainClass>
 				</configuration>
 			</plugin>
+			
+			
+			<plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                	<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal>
+							<goal>push</goal>
+						</goals>
+					</execution>
+				</executions>
+                <configuration>
+                <useMavenSettingsForAuth>false</useMavenSettingsForAuth>
+                    <repository>${docker.image.prefix}/${project.artifactId}</repository>
+                    <tag>${imageVersion}</tag>
+                    <dockerfile>src/main/docker</dockerfile>
+                    <buildArgs>
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                      <pullNewerImage>true</pullNewerImage>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 </project>
