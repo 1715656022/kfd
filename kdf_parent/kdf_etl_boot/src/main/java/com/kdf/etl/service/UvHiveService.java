@@ -37,7 +37,7 @@ public class UvHiveService {
 		StringBuffer hiveSql = new StringBuffer();
 		hiveSql.append("select appid appid, browser_name browserName, count(browser_name) count from pv_log_hive_");
 		hiveSql.append(yearMonthDayHour);
-		hiveSql.append(" group by browser_name, appid");
+		hiveSql.append(" group by appid, browser_name");
 		if(log.isInfoEnabled()) {
 			log.info("getBrowserUv  hiveSql=[{}]", hiveSql.toString());
 		}
@@ -61,7 +61,38 @@ public class UvHiveService {
 				return uvList;
 			}
 		});
-		log.error("resultList========={}", resultList);
+		return resultList;
+	}
+	
+	
+	public List<Map<String, String>> getOsUv(String yearMonthDayHour) {
+		StringBuffer hiveSql = new StringBuffer();
+		hiveSql.append("select appid appid, browser_name browserName, count(browser_name) count from pv_log_hive_");
+		hiveSql.append(yearMonthDayHour);
+		hiveSql.append(" group by browser_name, appid");
+		if(log.isInfoEnabled()) {
+			log.info("getOsUv  hiveSql=[{}]", hiveSql.toString());
+		}
+		List<Map<String, String>> resultList = hiveTemplate.execute(new HiveClientCallback<List<Map<String, String>>>() {
+			@Override
+			public List<Map<String, String>> doInHive(HiveClient hiveClient) throws Exception {
+				List<Map<String, String>> uvList = Lists.newArrayList();
+				Connection conn = hiveClient.getConnection();
+				Statement stmt = conn.createStatement();
+				ResultSet rs = stmt.executeQuery(hiveSql.toString());
+				while(rs.next()) {
+					String browserName = rs.getString("browserName");
+					String count = rs.getString("count");
+					String appid = rs.getString("appid");
+					Map<String, String> reMap = Maps.newHashMap();
+					reMap.put("browserName", browserName);
+					reMap.put("count", count);
+					reMap.put("appid", appid);
+					uvList.add(reMap);
+				}
+				return uvList;
+			}
+		});
 		return resultList;
 	}
 }

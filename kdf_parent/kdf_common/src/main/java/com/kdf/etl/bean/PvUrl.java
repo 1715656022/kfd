@@ -23,9 +23,9 @@ public class PvUrl {
     private String appId;
 
     /**
-     * ip
+     * 请求次数
      */
-    private String ip;
+    private Integer pvCount;
 
     /**
      * url

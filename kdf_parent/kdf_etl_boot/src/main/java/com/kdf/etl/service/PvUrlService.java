@@ -31,42 +31,26 @@ public class PvUrlService {
     private HiveTemplate hiveTemplate;
 
     /**
-     *
+     * hive里的数据转存到mysql
      */
-    public void hiveToMysql(){
-        List<Map<String, String>> list = getUrlPv("2019_10_11_14");
+    public void hiveToMysql(String yearMonthDayHour){
+        List<Map<String, String>> list = getUrlPv(yearMonthDayHour);
         list.forEach(temp ->{
             PvUrl pvUrl = new PvUrl();
             pvUrl.setAppId(temp.get("appId"));
-            pvUrl.setIp(temp.get("ip"));
+            pvUrl.setPvCount(Integer.parseInt(temp.get("count")));
             pvUrl.setUrl(temp.get("url"));
             pvUrl.setCreateTime(new Date());
-            pvUrl.setRequestTime(TimestampToDate(Integer.parseInt(temp.get("requestTime"))));
+            pvUrl.setRequestTime(DateUtils.strToDate(yearMonthDayHour));
             pvUrlRepository.save(pvUrl);
         });
     }
 
-    /**
-     * 10位时间戳转Date
-     * @param time
-     * @return
-     */
-    public static Date TimestampToDate(Integer time){
-        long temp = (long)time*1000;
-        Timestamp ts = new Timestamp(temp);
-        Date date = new Date();
-        try {
-            date = ts;
-            //System.out.println(date);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return date;
-    }
     private List<Map<String, String>> getUrlPv(String yearMonthDayHour) {
         StringBuffer hiveSql = new StringBuffer();
-        hiveSql.append("select appid, url, ip, url, request_time from pv_log_hive_");
+        hiveSql.append("select count(*) as count, appid, url from pv_log_hive_");
         hiveSql.append(yearMonthDayHour);
+        hiveSql.append(" group by appid,url");
         if(log.isInfoEnabled()) {
             log.info("getBrowserUv  hiveSql=[{}]", hiveSql.toString());
         }
@@ -78,14 +62,12 @@ public class PvUrlService {
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(hiveSql.toString());
                 while(rs.next()) {
-                    String ip = rs.getString("ip");
                     String url = rs.getString("url");
-                    String requestTime = rs.getString("request_time");
+                    String count = rs.getString("count");
                     String appid = rs.getString("appid");
                     Map<String, String> map = Maps.newHashMap();
-                    map.put("requestTime", requestTime);
+                    map.put("count", count);
                     map.put("url", url);
-                    map.put("ip", ip);
                     map.put("appId", appid);
                     urlList.add(map);
                 }
