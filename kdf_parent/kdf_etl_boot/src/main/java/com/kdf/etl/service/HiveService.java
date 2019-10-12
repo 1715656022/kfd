@@ -24,31 +24,29 @@ public class HiveService {
 	@Autowired
 	private HiveTemplate hiveTemplate;
 
+	/**
+	 * 总pv计算
+	 * 
+	 * @param yearMonthDayHour 年月日小时 时间戳
+	 * @return 汇总结果
+	 */
 	public List<Map<String, String>> getAllPv(String yearMonthDayHour) {
 		String hiveSql = "select count(1) pvCount,appid from pv_log_hive_" + yearMonthDayHour + " group by appid ";
-		log.debug("getAllPv sql={}",hiveSql);
-		
-		List<Map<String, String>> list = hiveTemplate.execute(new HiveClientCallback<List<Map<String, String>>>() {
-			@Override
-			public List<Map<String, String>> doInHive(HiveClient hiveClient) throws Exception {
-				List<Map<String, String>> list = Lists.newArrayList();
-
-				Connection conn = hiveClient.getConnection();
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(hiveSql);
-
-				Map<String, String> map = Maps.newHashMap();
-				while (rs.next()) {
-					map.keySet().removeIf(key -> key != "1");
-
-					map.put("pvCount", rs.getString("pvCount"));
-					map.put("appid", rs.getString("appid"));
-					list.add(map);
-				}
-				return list;
+		log.debug("getAllPv sql={}", hiveSql);
+		List<Map<String, String>> listMap = hiveTemplate.execute((hiveClient) -> {
+			List<Map<String, String>> list = Lists.newArrayList();
+			Connection conn = hiveClient.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(hiveSql);
+			Map<String, String> map = Maps.newHashMap();
+			while (rs.next()) {
+				map.put("pvCount", rs.getString("pvCount"));
+				map.put("appid", rs.getString("appid"));
+				list.add(map);
 			}
+			return list;
 		});
-		return list;
+		return listMap;
 	}
 
 	public Map<String, String> getPvCountByYearMonthDayHour(String yearMonthDayHour) {
