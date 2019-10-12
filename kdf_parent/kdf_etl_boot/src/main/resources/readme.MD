@@ -1,14 +1,5 @@
 # 項目介紹:
 
-## swagger訪問地址
-
-```shell
-http://192.168.0.104:8000/user/swagger-ui.html
-admin/123456
-```
-
-
-
 ## 停止容器：
 
 [root@JD shell]# docker ps
@@ -18,9 +9,11 @@ admin/123456
 CONTAINER ID        IMAGE                  COMMAND                  CREATED              STATUS              PORTS                    NAMES
 e5f3b2fcd8aa        mytest/bim_admin:1.8   "java -Djava.securit…"   About a minute ago   Up About a minute   0.0.0.0:9999->9000/tcp   confident_golick
 
-```
 
-docker kill  e5f3b2fcd8aa
+ docker stop e5f3b2fcd8aa
+ 或者
+ docker kill  e5f3b2fcd8aa
+```
 
 ## 啓動容器：
 
@@ -44,6 +37,28 @@ port=9999 start ok
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 设置阿里云 镜像加速
 
  ```shell
@@ -58,5 +73,3 @@ systemctl restart docker
  ```
 
 
-
-docker run -d -p 9999:9999 -it -v /tmp:/data/log myrunner
