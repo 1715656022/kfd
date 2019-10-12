@@ -10,7 +10,7 @@
 
 	<modules>
 		<module>kdf_etl</module>
-		<!-- <module>kdf_flow</module> -->
+		<module>kdf_flow</module>
 		<module>kdf_etl_boot</module>
 		<module>kdf_web</module>
 		<module>kdf_common</module>
