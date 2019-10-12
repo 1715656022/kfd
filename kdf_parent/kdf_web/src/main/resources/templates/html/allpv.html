@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="html/commons/commons :: commonHead"></head>
+<script type="text/javascript" th:src="@{/static/echarts/echarts.min.js}"></script>
+<meta charset="UTF-8">
+<body class="layui-layout-body">
+	<div class="layadmin-tabspage-none">
+		<div class="layui-layout layui-layout-admin">
+			<!-- 头 -->
+			<div th:replace="html/commons/head :: head"></div>
+			<!-- 菜单 -->
+			<div th:replace="html/commons/menu :: menu"></div>
+			<!-- 内容 -->
+			<div class="layui-body">
+				<div id="body-content">
+				
+					<div class="layui-fluid" >
+						<div class="layui-row layui-col-space15">
+							<div class="layui-col-md12">
+								<div class="layui-card">
+									<div class="layui-card-header">pv数量分布图</div>
+									<div class="layui-card-body">
+										<div id="peopleCount" style="width: 100%; height: 300px;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<script type="text/javascript">
+			layui.use([ 'jquery', 'element' ], function() {
+				var $ = layui.jquery;
+				var element = layui.element;
+
+				element.init();
+				element.on('nav(menu)', function(elem) {
+					url = elem[0].getAttribute('jump-url');
+					//console.log(elem[0].getAttribute('menu-id'));
+					if (null != url) {
+						$('#body-content').load(url);
+					}
+				});
+				var url = location.hash.split('#/')[1];
+				if (null != url && undefined != url) {
+					var menu = $('#' + url);
+					var parentMenu = menu[0].getAttribute('parent-menu');
+					$('#' + parentMenu).addClass('layui-nav-itemed');
+					menu.click();
+				}
+				
+				
+				determinBtn();
+			});
+			
+			var peopleCountChart = echarts.init(document.getElementById('peopleCount'));
+			var peopleCountOption = {
+				tooltip : {
+					trigger : 'axis'
+				},
+				legend : {
+					data : ['2019/10/11' ],
+					x : 'right'
+				},
+				xAxis : {
+					type : 'category',
+					boundaryGap : false,
+					data : [ '00:00 - 00:59', '02:00 - 02:59', '04:00 - 04:59',
+							'06:00 - 06:59' ]
+				},
+				grid : {
+					left : '3%',
+					right : '4%',
+					bottom : '3%',
+					containLabel : true
+				},
+				yAxis : {
+					type : 'value',
+					name : '人',
+				},
+				series : [ {
+					type : 'line',
+					name : '2019/10/11',
+					data : [ 700, 800, 400, 1000 ],
+					smooth : false,
+					itemStyle : {
+						normal : {
+							lineStyle : {
+								width : 3,
+								type : 'dotted'
+							}
+						}
+					},
+					color : '#9CB7FF'
+				} ]
+			};
+			peopleCountChart.setOption(peopleCountOption);
+
+			window.onresize = function() {
+				peopleCountChart.resize();
+			}
+			</script>
+		</div>
+	</div>
+</body>
+</html>
