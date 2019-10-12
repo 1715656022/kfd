@@ -49,7 +49,7 @@ public class EtlJob extends BaseHadoop {
 	static String dfs_year_month = "yyyyMMdd";
 	static String dfs_hour = "HH";
 
-	String sqlTemplet = "CREATE EXTERNAL TABLE ^HIVETABLENAME^ \r\n"
+	String sqlTemplet = "CREATE EXTERNAL TABLE IF NOT EXISTS  ^HIVETABLENAME^ \r\n"
 			+ "(key string,appid string,  method string,ip string,port string,url string,request_time string,country string,province string,city string,os_name string,os_version string,browser_name string,browser_version string,device_type string)  \r\n"
 			+ "STORED BY 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'  \r\n"
 			+ "WITH SERDEPROPERTIES (\"hbase.columns.mapping\" = \":key,log:appid,log:method,log:ip,log:port,log:url,log:request_time,log:country,log:province,log:city,log:os_name,log:os_version,log:browser_name,log:browser_version,log:device_type\")  \r\n"

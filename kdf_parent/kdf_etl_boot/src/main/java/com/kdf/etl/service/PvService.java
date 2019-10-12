@@ -33,7 +33,7 @@ public class PvService {
 	@Autowired
 	private PvAllRepository pvAllRepository;
 
-	public void getAllPv(String yearMonthDayHour) {
+	public void saveAllPv(String yearMonthDayHour) {
 		log.info("===============数据allpv执行开始==============");
 		List<Map<String, String>> list = hiveService.getAllPv(yearMonthDayHour);
 		list.forEach(map -> {

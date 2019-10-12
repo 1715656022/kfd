@@ -17,9 +17,9 @@ public class PvJob extends BaseHadoop {
 
 	@Scheduled(fixedRate = 1000000)
 //	@Scheduled(cron = "0 0 */1 * * ?")
-	public void etl() throws Exception {
+	public void allpv() throws Exception {
 		System.out.println("=======xxxxxxxxxxxxxxxxxx");
 		String yearMonthDayHour = getYyyyMmDdHh();
-		pvService.getAllPv(yearMonthDayHour);
+		pvService.saveAllPv(yearMonthDayHour);
 	}
 }
