@@ -65,14 +65,14 @@ public class UvUserAreaDistributionService {
                     // appid
                     map.put("appid", appid);
                     
+                    listMap.add(map);
+                    
                     // 新增数据到mysql库
                     UvUserAreaDistribution uvUserAreaDistribution = new UvUserAreaDistribution();
                     uvUserAreaDistribution.setAppid(appid);
                     uvUserAreaDistribution.setUvStartCount(startCount);
                     uvUserAreaDistribution.setRequestTime(DateUtils.strToDate(yearMonthDayHour));
                     uvUserAreaDistributionRepository.save(uvUserAreaDistribution);
-                    
-                    listMap.add(map);
                 }
                 return listMap;
             }
