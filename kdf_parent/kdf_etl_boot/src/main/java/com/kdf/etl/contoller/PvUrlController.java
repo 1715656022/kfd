@@ -24,6 +24,6 @@ public class PvUrlController {
 
     @GetMapping("/testlwl")
     public void testHive() {
-        pvUrlService.hiveToMysql();
+        pvUrlService.hiveToMysql("");
     }
 }
