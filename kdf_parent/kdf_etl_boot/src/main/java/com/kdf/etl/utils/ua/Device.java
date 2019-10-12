@@ -9,6 +9,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 
+ * @title: Device.java 
+ * @package com.kdf.etl.utils.ua 
+ * @description: user_agent解析类
+ * @author: 、T
+ * @date: 2019年10月12日 下午5:21:33 
+ * @version: V1.0
+ */
+@SuppressWarnings("serial")
 public class Device implements Serializable {
     private String client;
     private String version;
@@ -19,6 +29,17 @@ public class Device implements Serializable {
 
     public Device() {}
 
+    /**
+     * 
+     * @title: Device   
+     * @description: 构造方法内直接解析user_agent
+     * @param: @param userAgent
+     * @param: @param allMatchers
+     * @param: @throws NoSuchMethodException
+     * @param: @throws InvocationTargetException
+     * @param: @throws IllegalAccessException  
+     * @throws:
+     */
     public Device(String userAgent, Map<String, List<Map<String, String>>> allMatchers) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         for (Field field : this.getClass().getDeclaredFields()) {
 //            Map<String, List<Map<String, String>>> allMatchers = uaMatcher.getMatchers();

@@ -24,7 +24,7 @@ public class LogDecodeUtil {
 		resource = new ClassPathResource("uamatchers.json");
 		matchers = getMatchers();
 	}
-	
+
 //	private static String testStr = "GET /?user_agent=Mozilla%2F5.0+%28Windows+NT+6.1%3B+Win64%3B+x64%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Chrome%2F77.0.3865.90+Safari%2F537.36&method=GET&port=62000&ip=192.168.31.8&url=http%3A%2F%2Flocalhost%3A8080%2Fadd HTTP/1.1";
 
 	private static String testStr = "GET /?request_time=1570698913&method=GET&port=49577&ip=192.168.16.104&appid=pbkj_123&url=http%3A%2F%2F192.168.31.8%3A8080%2FDddddddd%2Ffffff&user_agent=Mozilla%2F5.0+%28Linux%3B+U%3B+Android+8.1.0%3B+zh-cn%3B+OPPO+R11+Build%2FOPM1.171019.011%29+AppleWebKit%2F537.36+%28KHTML%2C+like+Gecko%29+Version%2F4.0+Chrome%2F66.0.3359.126+MQQBrowser%2F9.7+Mobile+Safari%2F537.36 HTTP 1.1";
@@ -116,25 +116,24 @@ public class LogDecodeUtil {
 		}
 		return resultStr;
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	public static Map<String, List<Map<String, String>>> getMatchers() {
 		Map<String, List<Map<String, String>>> matchers = new HashMap<>();
 		BufferedReader br = null;
-        try {
-            br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
-            StringBuilder message=new StringBuilder();
-            String line = null;
-            while((line = br.readLine()) != null) {
-                message.append(line);
-            }
-            String result = message.toString().replace("\r\n", "");
-            matchers = JSONObject.fromObject(result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return matchers;
+		try {
+			br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+			StringBuilder message = new StringBuilder();
+			String line = null;
+			while ((line = br.readLine()) != null) {
+				message.append(line);
+			}
+			String result = message.toString().replace("\r\n", "");
+			matchers = JSONObject.fromObject(result);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return matchers;
 	}
 
 }
