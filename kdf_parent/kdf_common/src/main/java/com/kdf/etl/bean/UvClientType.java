@@ -16,7 +16,7 @@ public class UvClientType extends Common {
 	
 	private Date requestTime;
 	
-	private Long mobile_uv_count;
+	private Long mobileUvCount;
 	
-	private Long pc_uv_count;
+	private Long pcUvCount;
 }
