@@ -34,16 +34,9 @@ public class PvService {
 
 	public void saveAllPv(String yearMonthDayHour) {
 		log.info("===============数据allpv执行开始==============");
-		List<Map<String, String>> list = hiveService.getAllPv(yearMonthDayHour);
+		List<PvAll> list = hiveService.getAllPv(yearMonthDayHour);
 
 		List<PvAll> pvAllList = Lists.newArrayList();
-		list.forEach(map -> {
-			PvAll pvAll = new PvAll();
-			pvAll.setAppid(map.get("appid"));
-			pvAll.setPvCount(Long.valueOf(map.get("pvCount")));
-			pvAll.setRequestTime(DateUtils.strToDate(yearMonthDayHour));
-			pvAllList.add(pvAll);
-		});
 		pvAllRepository.saveAll(pvAllList);
 		log.info("===============数据allpv执行完成==============" + list);
 	}

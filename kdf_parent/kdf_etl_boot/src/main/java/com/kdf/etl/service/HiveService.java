@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.beust.jcommander.internal.Lists;
 import com.google.common.collect.Maps;
+import com.kdf.etl.bean.PvAll;
+import com.kdf.etl.utils.DateUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,23 +32,24 @@ public class HiveService {
 	 * @param yearMonthDayHour 年月日小时 时间戳
 	 * @return 汇总结果
 	 */
-	public List<Map<String, String>> getAllPv(String yearMonthDayHour) {
+	public List<PvAll> getAllPv(String yearMonthDayHour) {
 		String hiveSql = "select count(1) pvCount,appid from pv_log_hive_" + yearMonthDayHour + " group by appid ";
 		log.debug("getAllPv sql={}", hiveSql);
-		List<Map<String, String>> listMap = hiveTemplate.execute((hiveClient) -> {
-			List<Map<String, String>> list = Lists.newArrayList();
+		List<PvAll> pvAllList = hiveTemplate.execute((hiveClient) -> {
+			List<PvAll> list = Lists.newArrayList();
 			Connection conn = hiveClient.getConnection();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(hiveSql);
-			Map<String, String> map = Maps.newHashMap();
+			PvAll pvAll =new PvAll();
 			while (rs.next()) { 
-				map.put("pvCount", rs.getString("pvCount"));
-				map.put("appid", rs.getString("appid"));
-				list.add(map);
+				pvAll.setPvCount(rs.getLong("pvCount"));
+				pvAll.setAppid( rs.getString("appid"));
+				pvAll.setRequestTime(DateUtils.strToDate(yearMonthDayHour));
+				list.add(pvAll);
 			}
 			return list;
 		});
-		return listMap;
+		return pvAllList;
 	}
 
 	public Map<String, String> getPvCountByYearMonthDayHour(String yearMonthDayHour) {
