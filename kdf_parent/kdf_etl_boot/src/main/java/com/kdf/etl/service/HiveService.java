@@ -39,7 +39,7 @@ public class HiveService {
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(hiveSql);
 			Map<String, String> map = Maps.newHashMap();
-			while (rs.next()) {
+			while (rs.next()) { 
 				map.put("pvCount", rs.getString("pvCount"));
 				map.put("appid", rs.getString("appid"));
 				list.add(map);
