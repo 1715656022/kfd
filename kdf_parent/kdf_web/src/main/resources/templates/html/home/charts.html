@@ -1,0 +1,87 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+
+<div class="layui-fluid" th:fragment="charts">
+	<script type="text/javascript" th:src="@{/static/echarts/echarts.min.js}"></script>
+	<div class="layui-row layui-col-space15">
+		<div class="layui-col-md12">
+			<div class="layui-card">
+				<div class="layui-card-header">启动用户数</div>
+				<div class="layui-card-body">
+					<div id="peopleCount" style="width: 100%; height: 300px;"></div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-card">
+				<div class="layui-card-header">项目总PV</div>
+				<div class="layui-card-body">
+					<div id="peopleCount" style="width: 100%; height: 300px;"></div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-col-md6">
+			<div class="layui-card">
+				<div class="layui-card-header">项目总UV</div>
+				<div class="layui-card-body">
+					<div id="peopleCount" style="width: 100%; height: 300px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var peopleCountChart = echarts.init(document.getElementById('peopleCount'));
+		var peopleCountOption = {
+			tooltip : {
+				trigger : 'axis'
+			},
+			legend : {
+				data : [ '2019/10/12', '2019/10/11' ],
+				x : 'right'
+			},
+			xAxis : {
+				type : 'category',
+				boundaryGap : false,
+				data : [ '00:00 - 00:59', '02:00 - 02:59', '04:00 - 04:59',
+						'06:00 - 06:59' ]
+			},
+			grid : {
+				left : '3%',
+				right : '4%',
+				bottom : '3%',
+				containLabel : true
+			},
+			yAxis : {
+				type : 'value',
+				name : '人',
+			},
+			series : [ {
+				type : 'line',
+				name : '2019/10/12',
+				data : [ 820, 100, 901, 300 ],
+				areaStyle : {},
+				color : '#417DF5'
+			}, {
+				type : 'line',
+				name : '2019/10/11',
+				data : [ 700, 800, 400, 1000 ],
+				smooth : false,
+				itemStyle : {
+					normal : {
+						lineStyle : {
+							width : 3,
+							type : 'dotted'
+						}
+					}
+				},
+				color : '#9CB7FF'
+			} ]
+		};
+		peopleCountChart.setOption(peopleCountOption);
+
+		window.onresize = function() {
+			peopleCountChart.resize();
+		}
+	</script>
+</div>

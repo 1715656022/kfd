@@ -11,7 +11,12 @@
 			<div th:replace="html/commons/menu :: menu"></div>
 			<!-- 内容 -->
 			<div class="layui-body">
-				<div id="body-content"></div>
+				<div id="body-content">
+					<!-- 卡片 -->
+					<div th:replace="html/home/card :: card"></div>
+					<!-- 图表 -->
+					<div th:replace="html/home/charts :: charts"></div>
+				</div>
 			</div>
 		</div>
 	</div>
