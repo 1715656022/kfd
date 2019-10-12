@@ -34,11 +34,10 @@ public class PvService {
 
 	public void saveAllPv(String yearMonthDayHour) {
 		log.info("===============数据allpv执行开始==============");
-		List<PvAll> list = hiveService.getAllPv(yearMonthDayHour);
+		List<PvAll> pvAllList = hiveService.getAllPv(yearMonthDayHour);
 
-		List<PvAll> pvAllList = Lists.newArrayList();
 		pvAllRepository.saveAll(pvAllList);
-		log.info("===============数据allpv执行完成==============" + list);
+		log.info("===============数据allpv执行完成==============" + pvAllList);
 	}
 
 	public Map<String, String> getPvCountByYearMonthDayHour(String yearMonthDayHour) throws ParseException {
