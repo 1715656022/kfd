@@ -20,7 +20,7 @@ public class PvUrl {
     /**
      *  appid
      */
-    private Long appId;
+    private String appId;
 
     /**
      * ip
@@ -35,5 +35,10 @@ public class PvUrl {
     /**
      * createTime 创建时间
      */
-    private Date createTime ;
+    private Date createTime;
+
+    /**
+     * requestTime 请求时间（yyyy-mm-dd HH:00:00）
+     */
+    private Date requestTime;
 }
