@@ -73,6 +73,7 @@ public class HttpClientPVService {
 			pvHttpClient.setAppid(m.get("appid"));
 			pvHttpClient.setMethod(m.get("method"));
 			pvHttpClient.setPvCount( Long.parseLong( m.get("pvCount") ) );
+			pvHttpClient.setRequestTime(DateUtils.strToDate(yearMonthDayHour));
 			pvHttpClient.setCreateTime(new Date());
 			httpClientPVRepository.save(pvHttpClient);
 		});
