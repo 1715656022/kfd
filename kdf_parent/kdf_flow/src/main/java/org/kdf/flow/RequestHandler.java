@@ -48,30 +48,19 @@ public class RequestHandler implements HandlerInterceptor {
 	public static final String USER_AGENT = "user_agent";
     public static final String REQUEST_TIME = "request_time";
     public static final String APPID_KEY = "appid";
-    public static final String APPID_VALUE = "pbkj_123";
+    public static final String APPID_VALUE = "kdf_web";
     
 //    public static final String NGINX_REQUEST_URL = "http://47.93.53.233:80";
-    public static final String NGINX_REQUEST_URL = "";
+    public static final String NGINX_REQUEST_URL = "http://192.168.31.37";
     
     @Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
 		String url = request.getRequestURL().toString();
-		log.info("获取访问的url = [{}]", url);
-
 		String ipAddr = getIpAddress(request);
-		log.info("获取访问的ipAddr = [{}]", ipAddr);
-
 		int port = request.getRemotePort();
-		log.info("获取访问的端口port = [{}]", port);
-
 		String method = request.getMethod();
-		log.info("获取访问的请求方式method = [{}]", method);
-
 		String userAgent = request.getHeader("User-Agent");
-		log.info("获取访问的设备与浏览器信息userAgent = [{}]", userAgent);
-
-		
 		ThreadTask.getInstance().addTask(() -> {
 			HttpClient.doGet(NGINX_REQUEST_URL, initParaMap(url, ipAddr, port, method, userAgent, String.valueOf(System.currentTimeMillis()).substring(0, 10)));
 		});
