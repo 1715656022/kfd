@@ -41,25 +41,22 @@ public class UvHiveService {
 		if(log.isInfoEnabled()) {
 			log.info("getBrowserUv  hiveSql=[{}]", hiveSql.toString());
 		}
-		List<Map<String, String>> resultList = hiveTemplate.execute(new HiveClientCallback<List<Map<String, String>>>() {
-			@Override
-			public List<Map<String, String>> doInHive(HiveClient hiveClient) throws Exception {
-				List<Map<String, String>> uvList = Lists.newArrayList();
-				Connection conn = hiveClient.getConnection();
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(hiveSql.toString());
-				while(rs.next()) {
-					String browserName = rs.getString("browserName");
-					String count = rs.getString("count");
-					String appid = rs.getString("appid");
-					Map<String, String> reMap = Maps.newHashMap();
-					reMap.put("browserName", browserName);
-					reMap.put("count", count);
-					reMap.put("appid", appid);
-					uvList.add(reMap);
-				}
-				return uvList;
+		List<Map<String, String>> resultList = hiveTemplate.execute(hiveClient -> {
+			List<Map<String, String>> uvList = Lists.newArrayList();
+			Connection conn = hiveClient.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(hiveSql.toString());
+			while(rs.next()) {
+				String browserName = rs.getString("browserName");
+				String count = rs.getString("count");
+				String appid = rs.getString("appid");
+				Map<String, String> reMap = Maps.newHashMap();
+				reMap.put("browserName", browserName);
+				reMap.put("count", count);
+				reMap.put("appid", appid);
+				uvList.add(reMap);
 			}
+			return uvList;
 		});
 		return resultList;
 	}
@@ -73,26 +70,23 @@ public class UvHiveService {
 		if(log.isInfoEnabled()) {
 			log.info("getOsUv  hiveSql=[{}]", hiveSql.toString());
 		}
-		List<Map<String, String>> resultList = hiveTemplate.execute(new HiveClientCallback<List<Map<String, String>>>() {
-			@Override
-			public List<Map<String, String>> doInHive(HiveClient hiveClient) throws Exception {
-				List<Map<String, String>> uvList = Lists.newArrayList();
-				Connection conn = hiveClient.getConnection();
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(hiveSql.toString());
-				while(rs.next()) {
-					String osName = rs.getString("osName");
-					String osVersion = rs.getString("osVersion");
-					String appid = rs.getString("appid");
-					String count = rs.getString("count");
-					Map<String, String> reMap = Maps.newHashMap();
-					reMap.put("osName", osName + osVersion);
-					reMap.put("count", count);
-					reMap.put("appid", appid);
-					uvList.add(reMap);
-				}
-				return uvList;
+		List<Map<String, String>> resultList = hiveTemplate.execute(hiveClient -> {
+			List<Map<String, String>> uvList = Lists.newArrayList();
+			Connection conn = hiveClient.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(hiveSql.toString());
+			while(rs.next()) {
+				String osName = rs.getString("osName");
+				String osVersion = rs.getString("osVersion");
+				String appid = rs.getString("appid");
+				String count = rs.getString("count");
+				Map<String, String> reMap = Maps.newHashMap();
+				reMap.put("osName", osName + osVersion);
+				reMap.put("count", count);
+				reMap.put("appid", appid);
+				uvList.add(reMap);
 			}
+			return uvList;
 		});
 		return resultList;
 	}
@@ -110,25 +104,22 @@ public class UvHiveService {
 		if(log.isInfoEnabled()) {
 			log.info("getOsUv  hiveSql=[{}]", hiveSql.toString());
 		}
-		List<Map<String, String>> resultList = hiveTemplate.execute(new HiveClientCallback<List<Map<String, String>>>() {
-			@Override
-			public List<Map<String, String>> doInHive(HiveClient hiveClient) throws Exception {
-				List<Map<String, String>> uvList = Lists.newArrayList();
-				Connection conn = hiveClient.getConnection();
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(hiveSql.toString());
-				while(rs.next()) {
-					String appid = rs.getString("appId");
-					String mobileCount = rs.getString("mobileCount");
-					String pcCount = rs.getString("pcCount");
-					Map<String, String> reMap = Maps.newHashMap();
-					reMap.put("mobileCount", mobileCount);
-					reMap.put("pcCount", pcCount);
-					reMap.put("appid", appid);
-					uvList.add(reMap);
-				}
-				return uvList;
+		List<Map<String, String>> resultList = hiveTemplate.execute(hiveClient -> {
+			List<Map<String, String>> uvList = Lists.newArrayList();
+			Connection conn = hiveClient.getConnection();
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(hiveSql.toString());
+			while(rs.next()) {
+				String appid = rs.getString("appId");
+				String mobileCount = rs.getString("mobileCount");
+				String pcCount = rs.getString("pcCount");
+				Map<String, String> reMap = Maps.newHashMap();
+				reMap.put("mobileCount", mobileCount);
+				reMap.put("pcCount", pcCount);
+				reMap.put("appid", appid);
+				uvList.add(reMap);
 			}
+			return uvList;
 		});
 		return resultList;
 	}
