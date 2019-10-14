@@ -3,6 +3,7 @@ package com.kdf.etl.service;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,17 +35,20 @@ public class HiveService {
 	 */
 	public List<PvAll> getAllPv(String yearMonthDayHour) {
 		String hiveSql = "select count(1) pvCount,appid from pv_log_hive_" + yearMonthDayHour + " group by appid ";
-		log.debug("getAllPv sql={}", hiveSql);
+		if (log.isDebugEnabled()) {
+			log.debug("getAllPv sql={}", hiveSql);
+		}
 		List<PvAll> pvAllList = hiveTemplate.execute((hiveClient) -> {
 			List<PvAll> list = Lists.newArrayList();
 			Connection conn = hiveClient.getConnection();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(hiveSql);
-			PvAll pvAll =new PvAll();
-			while (rs.next()) { 
+			PvAll pvAll = new PvAll();
+			Date date = DateUtils.strToDate(yearMonthDayHour);
+			while (rs.next()) {
 				pvAll.setPvCount(rs.getLong("pvCount"));
-				pvAll.setAppid( rs.getString("appid"));
-				pvAll.setRequestTime(DateUtils.strToDate(yearMonthDayHour));
+				pvAll.setAppid(rs.getString("appid"));
+				pvAll.setRequestTime(date);
 				list.add(pvAll);
 			}
 			return list;
