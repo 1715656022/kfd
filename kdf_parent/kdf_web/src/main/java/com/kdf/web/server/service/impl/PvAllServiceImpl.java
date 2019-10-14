@@ -1,5 +1,6 @@
 package com.kdf.web.server.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,14 @@ public class PvAllServiceImpl implements PvAllService {
 	private PvAllRepository pvAllRepository;
 
 	@Override
-	public List<PvAll> getPvAllList(String appid, String startTime, String endTime) {
+	public List<PvAll> getPvAllList(String appid, Date startTime, Date endTime) {
 		return pvAllRepository.findAllByAppidAndRequestTimeBetween(appid, startTime, endTime);
 	}
+
+	@Override
+	public List<Map<String, Object>> findAllPvMap(String appid) {
+		return pvAllRepository.findAllPvMap(appid);
+	}
+	
+	
 }
