@@ -55,8 +55,8 @@ public class EtlJob extends BaseHadoop {
 			+ "WITH SERDEPROPERTIES (\"hbase.columns.mapping\" = \":key,log:appid,log:method,log:ip,log:port,log:url,log:request_time,log:country,log:province,log:city,log:os_name,log:os_version,log:browser_name,log:browser_version,log:device_type\")  \r\n"
 			+ "TBLPROPERTIES (\"hbase.table.name\" = \"^HBASETABLENAME^\")";
 
-	@Scheduled(fixedRate = 100000)
-//	@Scheduled(cron = "0 0 */1 * * ?")
+//	@Scheduled(fixedRate = 100000)
+	@Scheduled(cron = "0 0 */1 * * ?")
 	public void etl() throws Exception {
 		log.info("===============数据清洗执行开始=============");
 		LocalDateTime ldtOne = LocalDateTime.now().minusHours(1);
