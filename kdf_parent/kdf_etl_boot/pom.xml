@@ -9,14 +9,6 @@
 	</parent>
 	<artifactId>kdf_etl_boot</artifactId>
 
-	<properties>
-		<java.version>1.8</java.version>
-		<docker.registryServerId>230-5000</docker.registryServerId>
-		<docker.registryHost>http://192.168.31.37:12375</docker.registryHost>
-		<docker.registryUrl>http://${docker.registryHost}/</docker.registryUrl>
-		<imageVersion>1.8</imageVersion>
-		<docker.image.prefix>mytest</docker.image.prefix>
-	</properties>
 
 
 	<dependencies>

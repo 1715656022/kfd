@@ -61,6 +61,11 @@
 		    <artifactId>hutool-all</artifactId>
 		    <version>4.3.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.kdf.cloud</groupId>
+			<artifactId>kdf_flow</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
@@ -93,6 +98,37 @@
 	            <groupId>org.springframework.boot</groupId>
 	            <artifactId>spring-boot-maven-plugin</artifactId>
         	</plugin>
+        	<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.0</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>build</goal> 
+							<!-- <goal>push</goal> -->
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<useMavenSettingsForAuth>false</useMavenSettingsForAuth>
+					<repository>${docker.image.prefix}/${project.artifactId}</repository>
+					<tag>${imageVersion}</tag>
+					<dockerfile>src/main/docker</dockerfile>
+					<buildArgs>
+						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+					<pullNewerImage>true</pullNewerImage>
+				</configuration>
+			</plugin>
     	</plugins>
 	</build>
 
