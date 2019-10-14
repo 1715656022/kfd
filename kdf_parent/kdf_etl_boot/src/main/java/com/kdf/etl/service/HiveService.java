@@ -19,7 +19,14 @@ import com.kdf.etl.bean.PvAll;
 import com.kdf.etl.utils.DateUtils;
 
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * 
+ * @ClassName: HiveService
+ * @Description: HiveService
+ * @author 王者の南が少ない 1715656022@qq.com
+ * @date 2019年10月10日 上午11:04:44
+ * 
+ */
 @Service
 @Slf4j
 public class HiveService {

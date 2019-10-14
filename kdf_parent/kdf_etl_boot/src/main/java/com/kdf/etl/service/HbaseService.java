@@ -6,6 +6,14 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
 import org.springframework.stereotype.Service;
 
+/**
+ * 
+ * @ClassName: HbaseService
+ * @Description: hbase service
+ * @author 王者の南が少ない 1715656022@qq.com
+ * @date 2019年10月10日 上午11:04:44
+ * 
+ */
 @Service
 public class HbaseService extends BaseService {
 
@@ -15,7 +23,6 @@ public class HbaseService extends BaseService {
 		try {
 			getConf();
 			admin = connection.getAdmin();
-			// 删除表
 			TableName tableName = TableName.valueOf(tableNameStr);
 			if (admin.tableExists(tableName)) {
 				System.out.println("table is already exists!");
