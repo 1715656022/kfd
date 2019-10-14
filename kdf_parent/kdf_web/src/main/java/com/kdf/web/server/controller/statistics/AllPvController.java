@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.druid.util.StringUtils;
 import com.kdf.web.server.bean.PbUser;
-import com.kdf.web.server.bean.PvAll;
 import com.kdf.web.server.service.PvAllService;
 /**
  * 
@@ -56,7 +55,6 @@ public class AllPvController {
 		// 查找当前项目的总pv数
 		String appid = "pbkj_123";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		List<PvAll> pvAllList = null;
 		List<Map<String, Object>> listss = null;
 		try {
 			if (!StringUtils.isEmpty(startTime) && !StringUtils.isEmpty(endTime)) {
