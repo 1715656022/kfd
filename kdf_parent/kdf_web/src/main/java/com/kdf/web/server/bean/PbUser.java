@@ -55,4 +55,7 @@ public class PbUser implements Serializable {
 
 	@Column(name="user_name")
 	private String userName;
+	
+	private Integer superAdminFlag;
+	
 }
