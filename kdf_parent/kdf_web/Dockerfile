@@ -1,4 +1,4 @@
-FROM registry.cn-beijing.aliyuncs.com/java_god/my_jdk8:test
+FROM majiajue/jdk1.8:latest
 ARG JAR_FILE
 ADD ${JAR_FILE} kdf_web.jar
 COPY SIMSUN.ttf /usr/share/fonts/simsun.ttf
