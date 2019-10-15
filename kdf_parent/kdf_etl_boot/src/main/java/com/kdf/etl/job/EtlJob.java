@@ -75,7 +75,7 @@ public class EtlJob extends BaseHadoop {
 		createHiveSql = createHiveSql.replace("^HBASETABLENAME^", hbaseTableName);
 		hiveJdbcService.createTable(createHiveSql);
 
-		System.out.println("========" + hdfsFilePath);
+		log.info("===hdfsFilePath=====" + hdfsFilePath);
 		// hdfs 目录下所有文件
 		List<Map<String, String>> list = hdfsService.listFile(Constants.HDFS + "/" + hdfsFilePath);
 //		List<Map<String, String>> list = hdfsService.listFile(Constants.HDFS+"/"+"flume/nginx/20191010/09/");
