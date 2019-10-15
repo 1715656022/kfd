@@ -1,16 +1,12 @@
 package com.kdf.etl.service;
 
-import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.beust.jcommander.internal.Lists;
 import com.kdf.etl.bean.PvAll;
 import com.kdf.etl.repository.PvAllRepository;
-import com.kdf.etl.utils.DateUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -38,16 +34,6 @@ public class PvService {
 
 		pvAllRepository.saveAll(pvAllList);
 		log.info("===============数据allpv执行完成==============" + pvAllList);
-	}
-
-	public Map<String, String> getPvCountByYearMonthDayHour(String yearMonthDayHour) throws ParseException {
-		Map<String, String> cntPv = hiveService.getPvCountByYearMonthDayHour(yearMonthDayHour);
-		// insert db
-		PvAll pvAll = new PvAll();
-		pvAll.setPvCount(Long.valueOf(cntPv.get("pvCount")));
-		pvAll.setRequestTime(DateUtils.strToDate(yearMonthDayHour));
-		pvAllRepository.save(pvAll);
-		return cntPv;
 	}
 
 }

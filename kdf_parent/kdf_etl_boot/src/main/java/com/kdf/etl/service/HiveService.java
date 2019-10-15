@@ -62,25 +62,4 @@ public class HiveService {
 		});
 		return pvAllList;
 	}
-
-	public Map<String, String> getPvCountByYearMonthDayHour(String yearMonthDayHour) {
-		String hiveSql = "select count(1) as pvCount from pv_log_hive_" + yearMonthDayHour;
-		log.info("sql={}" + hiveSql);
-		Map<String, String> resultMap = hiveTemplate.execute(new HiveClientCallback<Map<String, String>>() {
-			@Override
-			public Map doInHive(HiveClient hiveClient) throws Exception {
-				Map<String, String> cntMap = Maps.newHashMap();
-				java.sql.Connection conn = hiveClient.getConnection();
-				Statement stmt = conn.createStatement();
-				ResultSet rs = stmt.executeQuery(hiveSql);
-				while (rs.next()) {
-					String pvCount = rs.getString("pvCount");
-					cntMap.put("pvCount", pvCount);
-					cntMap.put("yearMonthDayHour", yearMonthDayHour);
-				}
-				return cntMap;
-			}
-		});
-		return resultMap;
-	}
 }
